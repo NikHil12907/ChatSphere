@@ -1,0 +1,31 @@
+<h2>Chat with {{ other_user.username }}</h2>
+<div id="chat-messages"></div>
+<input type="text" id="chat-message-input" placeholder="Type a message....">
+<button id="chat-message-submit">Send</button>
+
+<script>
+    const roomName = "{{ room_name }}"
+    const chatSocket = new WebSocket(
+    'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+    );
+
+chatSocket.onmessage = function(e){
+    const data = JSON.parse(e.data);
+    const messageElement = document.createElement('div');
+    messageElement.textContent = data.username + ': '+ data.message;
+    document.getElementById('chat-messages').appendChild(messageElement);
+};
+
+chatSocket.onclose = function(e){
+    console.error('Chat Socket Close Unexpectedly');
+}
+
+document.getElementById('chat-message-submit').onclick = function(e){
+    const messageInput = document.getElementById('chat-message-input');
+    const message = messageInput.value;
+    chatSocket.send(JSON.stringify({
+        'message':message,
+    }))
+    messageInput.value = '';
+}
+</script>
