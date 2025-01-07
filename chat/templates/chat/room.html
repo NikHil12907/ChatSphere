@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ room_name }}</title>
+    <script src="https://kit.fontawesome.com/27238bd807.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% tailwind_css %}
     
@@ -13,10 +14,10 @@
     <div class="flex h-screen">
       <aside style="background-color:#36404a; width:5%" class="flex flex-col items-center justify-center space-y-8">
             <ul class="space-y-6">
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('profile')"><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('settings')"><i class="fa fa-cog" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('rooms')"><i class="fa fa-users" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('log-out')"><i class="fa fa-sign-out" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('profile')"><i class="fa-regular fa-user" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('settings')"><i class="fa-solid fa-sliders" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('rooms')"><i class="fa-solid fa-users-line" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('log-out')"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></li>
             </ul>
       </aside>
 
@@ -76,12 +77,12 @@
               <input
                 type="text"
                 id="chat-message-input"
-                class="flex-1 border rounded-lg focus: outline-none focus:ring focus:border-blue-400" style="color:gray"
+                class="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" style="color:rgb(255, 255, 255)" placeholder="Type your message..."
               /><br />
               <input
                 type="button"
                 value="Send"
-                class="bg-inherit text-white border-white-300 px-4 py-2"
+                class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md focus:outline-none transition"
                 id="chat-message-submit"
               /><br />
             </div>
