@@ -7,23 +7,29 @@
     <title>{{ room_name }}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% tailwind_css %}
+    
   </head>
   <body class="bg-gray-900 text-gray-100 w-full h-screen overflow-hidden">
     <div class="flex h-screen">
-      <aside style="background-color:#36404a" class="w-24 flex flex-col items-center justify-center space-y-8">
+      <aside style="background-color:#36404a; width:5%" class="flex flex-col items-center justify-center space-y-8">
             <ul class="space-y-6">
-              <li class="p-4 hover:bg-gray-700 text-xl rounded-lg transition flex justify-center items-center" onclick="showSection('profile')"><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
-              <li class="p-4 hover:bg-gray-700 text-xl rounded-lg transition flex justify-center items-center" onclick="showSection('settings')"><i class="fa fa-cog" aria-hidden="true"></i></li>
-              <li class="p-4 hover:bg-gray-700 text-xl rounded-lg transition flex justify-center items-center" onclick="showSection('rooms')"><i class="fa fa-users" aria-hidden="true"></i></li>
-              <li class="p-4 hover:bg-gray-700 text-xl rounded-lg transition flex justify-center items-center" onclick="showSection('log-out')"><i class="fa fa-sign-out" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('profile')"><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('settings')"><i class="fa fa-cog" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('rooms')"><i class="fa fa-users" aria-hidden="true"></i></li>
+              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('log-out')"><i class="fa fa-sign-out" aria-hidden="true"></i></li>
             </ul>
       </aside>
 
       {% comment %} Middle Section {% endcomment %}
       <section id="dynamic-section" style="background-color:#303942" class="w-1/4 bg-gray-600 text-white sm:block overflow-y-auto shadow-lg h-full">
-        <div id="profile" class="p-4 hidden ">
-          <h1 class="text-xl font-semibold">Profile Information</h1>
-          <p class="mt-4">User Details Goes here</p>
+        <div id="profile" class="p-4 hidden">
+          <h1 class="text-xl font-semibold ml-4">Profile </h1>
+          
+          {% comment %} profile pic {% endcomment %}
+          <div class="flex justify-center">
+            <img src="" alt="">
+
+          </div>
         </div>
         <div id="settings" class="p-4 hidden ">
           <h1 class="text-xl font-semibold">Settings</h1>
@@ -59,23 +65,23 @@
             {% for message in messages %}
               <div class="my-2 {% if message.user.username == username %}ml-auto text-right {% else %}mr-auto text-left{% endif %}">
                 <div class="text-sm font-semibold text-white mb-1">{{ message.user.username  }}</div>
-                <div style="background-color:#746de6" class="p-3 text-white  max-w-ws inline-block rounded-lg break-words shadow-lg">{{ message.content }}</div>
+                <div style="background-color:#746de6 " class="p-3 text-white  max-w-ws inline-block rounded-lg break-words shadow-lg">{{ message.content }}</div>
                 <div class="text-xs text-gray-300 mt-1">{{ message.timeStamp }}</div>
               </div>
             {% endfor %}
           </div>
   
-          <footer class="p-4  " style="background-color:#252e35">
+          <footer class="p-4" style="background-color:#252e35">
             <div class="flex items-center space-x-2 mb-4">
               <input
                 type="text"
                 id="chat-message-input"
-                class="flex-1 border rounded-lg focus: outline-none focus:ring focus:border-blue-400"
+                class="flex-1 border rounded-lg focus: outline-none focus:ring focus:border-blue-400" style="color:gray"
               /><br />
               <input
                 type="button"
                 value="Send"
-                class="bg-inherit text-white border border-white-300 px-4 py-2"
+                class="bg-inherit text-white border-white-300 px-4 py-2"
                 id="chat-message-submit"
               /><br />
             </div>
@@ -116,8 +122,6 @@
         "text-gray-800",
         "max-w-ws",
         "inline-block",
-        "border",
-        "border-white",
         "rounded-lg",
         "break-words",
         "shadow-lg"

@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.urls import reverse
 from .forms import RoomForm
-from .models import Room, Notification
+from .models import Room, Notification, Profile
 from django.contrib import messages
 # Create your views here.
 
@@ -22,6 +22,8 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            
+            Profile.objects.get_or_create(user=user)
             return redirect('room_list')
         else:
             messages.error(request, 'Invalid Username and Password')
