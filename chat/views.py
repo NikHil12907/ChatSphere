@@ -35,10 +35,13 @@ def register_view(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            login(request, user)
-            return redirect('login')
+            raw_password = form.cleaned_data.get('password1')
+            
+            user = authenticate(request, username=username, password=raw_password)
+            if user is not None:
+                login(request,user)
+                return redirect('login')
+            return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'chat/register.html', {'form':form})

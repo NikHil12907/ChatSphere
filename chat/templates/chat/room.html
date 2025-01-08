@@ -104,6 +104,11 @@
       const data = JSON.parse(event.data);
       const currentUsername = "{{ username }}";
       const chatLog = document.querySelector("#chat-log");
+
+      if(!data.message || data.message.trim() === ""){
+        return;
+      }
+
       const msgContainer = document.createElement("div");
       const usernameDiv = document.createElement("div");
       const messageDiv = document.createElement("div");
@@ -119,8 +124,8 @@
       messageDiv.textContent = data.message;
       messageDiv.classList.add(
         "p-3",
-        "bg-blue-300",
-        "text-gray-800",
+        "bg-indigo-600",
+        "text-white",
         "max-w-ws",
         "inline-block",
         "rounded-lg",
@@ -131,9 +136,9 @@
       timeStampDiv.classList.add("text-xs", "text-gray-300", "mt-1")
 
       if (data.username === currentUsername) {
-        msgContainer.classList.add("my-2", "ml-auto", "text-right");
+        msgContainer.classList.add( "text-right" );
       } else {
-        msgContainer.classList.add("my-2", "mr-auto", "text-left");
+        msgContainer.classList.add( "text-left");
       }
 
       msgContainer.appendChild(usernameDiv);
