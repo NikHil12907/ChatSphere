@@ -27,10 +27,19 @@
           <h1 class="text-xl font-semibold ml-4">Profile </h1>
           
           {% comment %} profile pic {% endcomment %}
-          <div class="flex justify-center">
-            <img src="" alt="">
-
+          <div class="flex justify-center w-full items-center">
+            <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class="aspect-square h-auto rounded-[50%]"> 
           </div>
+
+          <div class="text-center">
+            <h1 class="text-lg font-medium">{{ user.username }}</h1>
+            <p>{{ user.profile.bio|default:"No Bio Available" }}</p>
+          </div>
+
+          <div class="flex justify-center">
+            <p>{{ user.profile.dob|date:"F j, Y"|default:"Not Provided" }}</p>
+          </div>
+
         </div>
         <div id="settings" class="p-4 hidden ">
           <h1 class="text-xl font-semibold">Settings</h1>

@@ -54,8 +54,8 @@ class Notification(models.Model):
 class Profile(models.Model):
     user =  models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     bio = models.TextField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', default='default-avatar.png')
-    dob = models.TextField(blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', default='/images/default-avatar.png')
+    dob = models.DateField(blank=True, null=True)
     
     def __str__(self):
         return self.user.username
