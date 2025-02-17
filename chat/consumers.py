@@ -110,24 +110,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
     @database_sync_to_async
     def notify_out_of_room_users(self, room_name, sender_username, message):
-        room = Room.objects.get(name=room_name)
-        inactive_users = room.active_users.exclude(username=sender_username)
         
-        for user in inactive_users:
-            Notification.objects.create(
-                user=user,
-                room=room,
-                sender=sender_username,
-                message=message,
-                is_read=False,
+        try:
+            room = Room.objects.get(name=room_name)
+            inactive_users = room.active_users.exclude(username=sender_username)
+        
+            for user in inactive_users:
+                Notification.objects.create(
+                    user=user,
+                    room=room,
+                    sender=sender_username,
+                    message=message,
+                    is_read=False,
+                )
+        
+            async_to_sync(self.channel_layer.group_send)(
+                "notifications",{
+                    "type":"notify_users",
+                    "room_name":room_name,
+                }
             )
-        
-        async_to_sync(self.channel_layer.group_send)(
-            "notifications",{
-                "type":"notify_users",
-                "room_name":room_name,
-            }
-        )
+        except Room.DoesNotExist:
+            print(f"Room {room_name} does not exist")
+        except Exception as e:
+            print(f"Error Notifying users: {str(e)}")
         
                    
         
