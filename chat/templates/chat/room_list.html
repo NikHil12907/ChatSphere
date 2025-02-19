@@ -1,14 +1,224 @@
-{% load static tailwind_tags %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Of Rooms</title>
-    {% tailwind_css %}
-  </head>
-  <body>
-    <main
+{% extends "theme/base.html" %}
+{% block title %}Room List{% endblock %}
+{% block style %}
+{% comment %} Search Bar CSS Satrted {% endcomment %}
+.glow {
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  border-radius: 100%;
+}
+
+.glow-1 {
+  animation: glow1 4s linear infinite;
+}
+
+.glow-2 {
+  animation: glow2 4s linear infinite;
+  animation-delay: 100ms;
+}
+
+.glow-3 {
+  animation: glow3 4s linear infinite;
+  animation-delay: 200ms;
+}
+
+.glow-4 {
+  animation: glow4 4s linear infinite;
+  animation-delay: 300ms;
+}
+
+@keyframes glow1 {
+  0% {
+    transform: translate(10%, 10%) scale(1);
+  }
+  25% {
+    transform: translate(-10%, 10%) scale(1);
+  }
+  50% {
+    transform: translate(-10%, -10%) scale(1);
+  }
+  75% {
+    transform: translate(10%, -10%) scale(1);
+  }
+  100% {
+    transform: translate(10%, 10%) scale(1);
+  }
+}
+
+@keyframes glow2 {
+  0% {
+    transform: translate(-10%, -10%) scale(1);
+  }
+  25% {
+    transform: translate(10%, -10%) scale(1);
+  }
+  50% {
+    transform: translate(10%, 10%) scale(1);
+  }
+  75% {
+    transform: translate(-10%, 10%) scale(1);
+  }
+  100% {
+    transform: translate(-10%, -10%) scale(1);
+  }
+}
+
+@keyframes glow3 {
+  0% {
+    transform: translate(-10%, 10%) scale(1);
+  }
+  25% {
+    transform: translate(-10%, -10%) scale(1);
+  }
+  50% {
+    transform: translate(10%, -10%) scale(1);
+  }
+  75% {
+    transform: translate(10%, 10%) scale(1);
+  }
+  100% {
+    transform: translate(-10%, 10%) scale(1);
+  }
+}
+
+@keyframes glow4 {
+  0% {
+    transform: translate(10%, -10%) scale(1);
+  }
+  25% {
+    transform: translate(10%, 10%) scale(1);
+  }
+  50% {
+    transform: translate(-10%, 10%) scale(1);
+  }
+  75% {
+    transform: translate(-10%, -10%) scale(1);
+  }
+  100% {
+    transform: translate(10%, -10%) scale(1);
+  }
+}
+{% comment %} Search Bar CSS Ended {% endcomment %}
+
+{% comment %} Banner Holographic Moving Animation Started {% endcomment %}
+.holographic {
+  background: linear-gradient(135deg, #00ffff, #2596be );
+  background-size: 500% 500%;
+  animation: holoGlow 8s infinite ease-in-out;
+}
+@keyframes holoGlow {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 50% 100%;}
+  100% {background-position: 100% 0%;}
+  
+}
+
+.hover-effect{
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}       
+.hover-effect:hover{
+  transform: scale(1.10);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);;
+}
+
+{% comment %} Banner Holographic Moving Animation Ended {% endcomment %}
+
+{% comment %} Card Animation Started {% endcomment %}
+  .another-hover{
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 80%;
+  padding: 40px;
+
+}
+
+.another-hover::before{
+  content:'';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 20px);
+  height: 10px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+}
+
+.another-hover::after{
+  content: '';
+  position: absolute;
+  top: -10px; 
+  left: calc(50% - 25px);
+  width: calc(50%);
+  height: calc(100%);
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+  transform: skewX(15deg);
+  transition: 0.5s;
+  
+}
+
+.another-hover:hover::after{
+  transform: skewX(0deg);
+  left: 20px;
+  width: calc(100% - 90px);
+}
+
+.another-hover span::before,
+.another-hover span::after{
+  content: '';
+  position: absolute;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: 0.1s;  
+  animation: animate 2s ease-in-out infinite;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.another-hover:hover span::before{
+  top: -50px;
+  left: 50px;
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+}
+
+.another-hover span::after {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s;
+  animation-delay: -1s;
+}
+
+.another-hover:hover span::after {
+  bottom: -50px;
+  right: 50px;
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+}
+
+@keyframes animate {
+  0%, 100% { transform: translateY(10px);}
+  50% { transform: translate(-10px); }
+}
+
+{% comment %} Card Animation Ended {% endcomment %}
+
+{% endblock %}
+  {% block content %}
+  {% comment %}
+  <main
       class="mx-auto flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 text-white"
     >
       <section class="flex w-[30rem] flex-col space-y-10">
@@ -51,8 +261,54 @@
         
 
       </section>
-    </main>
-  </body>
+    </main> {% endcomment %}
+    <section class="py-20 flex flex-col items-center w-full">
+      <div class="container mx-auto text-center px-6">
+          <h2 class="text-4xl font-bold text-white">Why Choose ChatSphere</h2>
+          <p class="text-gray-400 mt-4">Powerful features designed for seamless communication.</p>
+          
+          <div class="mt-12 grid md:grid-cols-4 sm:none gap-8">
+            {% if users %}  
+              {% for user in recommended_users %}
+              <div class="bg-gray-900 p-8 rounded-lg shadow-md another-hover">
+                <span></span>
+                <div class="content relative z-10">
+                  <img src="{{ user.profile.profile_picture.url |default:'static/images/default-avatar.png'}}" alt="Profile Picture" class="inline-block rounded-full ring-2 ring-white h-14 w-14 items-center mb-2">
+                    <h3 class="text-2xl text-indigo-400 mb-4">{{ user.username }}</h3>
+                    <a href="#" class="text-white flex justify-center text-center mb-4 hover:underline">View Profile</a>
+                    <a href="{% url "private_chat" user.username%}" style="background-color:#2596be; " class="mt-6 transform rounded-sm px-3 py-2 duration-300 hover:bg-indigo-400 w-full hover:shadow-md">Start Chatting</a> 
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <p>No User in db</p>
+            {% endif %}
+          
+
+          </div>
+      </div>
+  </section>
+
+  <section class="relative holographic text-center py-24">
+    <div class="container mx-auto px-6">
+        <h1 class="text-5xl font-bold">Search by your Interest or User</h1>
+          <div class="relative p-12 w-full sm:max-w-2xl sm:mx-auto">
+            <div class="overflow-hidden z-0 rounded-full relative p-3">
+              <form role="form" class="relative flex z-50 rounded-full">
+                <input type="text" placeholder="enter your search here" class="rounded-full flex-1 px-6 py-4 text-gray-700 focus:outline-none">
+                <button class="bg-indigo-500 text-white rounded-full font-semibold px-8 py-4 hover:bg-indigo-400 focus:bg-indigo-600 focus:outline-none">Search</button>
+              </form>
+              <div class="glow glow-1 z-10 bg-pink-400 absolute"></div>
+              <div class="glow glow-2 z-20 bg-purple-400 absolute"></div>
+              <div class="glow glow-3 z-30 bg-yellow-400 absolute"></div>
+              <div class="glow glow-4 z-40 bg-blue-400 absolute"></div>
+            </div>
+          </div>
+    </div>
+  </section>
+
+  {% endblock content %}
+  
   <script>
     const socket = new WebSocket(
       "ws://" + window.location.host + "/ws/chat/notifications/"  
@@ -67,4 +323,3 @@
       }
   }
   </script>
-</html>

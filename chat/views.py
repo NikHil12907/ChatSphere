@@ -53,14 +53,17 @@ def logout_view(request):
 @login_required
 def room_list(request):
     # rooms = Room.objects.all()
+    users = User.objects.all()
+    current_user = request.user
+    recommended_users = users.exclude(id=current_user.id)
     rooms = Room.objects.annotate(
         unread_count=Count(
             'messages',
             filter=Q(messages__is_read=False, messages__user=request.user )
         )
-    )
+    )   
     
-    return render(request, 'chat/room_list.html', {'rooms' : rooms})
+    return render(request, 'chat/room_list.html', {'rooms' : rooms, 'users': users, 'recommended_users': recommended_users})
 
 @login_required
 def room(request, room_name):

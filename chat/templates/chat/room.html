@@ -28,7 +28,7 @@
           
           {% comment %} profile pic {% endcomment %}
           <div class="flex justify-center w-full items-center">
-            <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class="aspect-square h-auto rounded-[50%]"> 
+            <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class=""> 
           </div>
 
           <div class="text-center">

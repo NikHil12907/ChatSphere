@@ -8,24 +8,20 @@
     {% tailwind_css %}
     <style>
         .holographic {
-            background: linear-gradient(135deg, #ff00ff, #00ffff, #ff00ff, #00ff00);
-            background-size: 600% 600%;
-            animation: holoGlow 12s infinite ease-in-out, holoShift 3s infinite alternate ease-in-out;
+            background: linear-gradient(135deg, #00ffff, #2596be );
+            background-size: 500% 500%;
+            animation: holoGlow 8s infinite ease-in-out;
         }
         @keyframes holoGlow {
             0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
+            50% {background-position: 50% 100%;}
+            100% {background-position: 100% 0%;}
+
         }
 
-        @keyframes holoShift{
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-
-        .hover-effect:{
+        .hover-effect{
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
+        }       
         .hover-effect:hover{
             transform: scale(1.10);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);;
@@ -33,42 +29,43 @@
 
         .another-hover{
             position: relative;
-            transition: 0.5s;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 40px;
         }
 
-        .another-hover::before,
-        .another-hover::after{
+        .another-hover::before{
             content:'';
             position: absolute;
-            top: 0;
-            left: 50px;
-            width: 50%;
-            height: 100%;
-            background: #fff;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 20px);
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
+
+        .another-hover::after{
+            content: '';
+            position: absolute;
+            top: -10px; 
+            left: calc(50% - 25px);
+            width: calc(50%);
+            height: calc(100%);
+            background: rgba(255,255,255,0.2);
             border-radius: 8px;
             transform: skewX(15deg);
             transition: 0.5s;
-            filter: blur(30px);
+            
         }
-
-        .another-hover:hover::before,
+        
         .another-hover:hover::after{
             transform: skewX(0deg);
             left: 20px;
             width: calc(100% - 90px);
-        }
-
-        .another-hover:nth-child(1)::before,
-        .another-hover:nth-child(1)::after{
-            background: linear-gradient(315deg, #ffbc00, #ff0058);
-        }
-        .another-hover:nth-child(2)::before,
-        .another-hover:nth-child(2)::after{
-            background: linear-gradient(315deg, #03a9f4, #ff0058);
-        }
-        .another-hover:nth-child(3)::before,
-        .another-hover:nth-child(3)::after{
-            background: linear-gradient(315deg, #4dff03, #00d0ff);
         }
 
         .another-hover span::before,
@@ -98,7 +95,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: 0.5s;
+            transition: opacity 0.5s;
             animation-delay: -1s;
         }
 
@@ -139,7 +136,7 @@
         </div>
     </section>
 
-    <section class="py-20 flex flex-col items-center">
+    <section class="py-20 flex flex-col items-center w-full">
         <div class="container mx-auto text-center px-6">
             <h2 class="text-4xl font-bold text-white">Why Choose ChatSphere</h2>
             <p class="text-gray-400 mt-4">Powerful features designed for seamless communication.</p>
@@ -155,38 +152,21 @@
                 <div class="bg-gray-900 p-8 rounded-lg shadow-md another-hover">
                     <span></span>
                     <div class="content relative z-10">
-                        <h3 class="text-2xl font-bold text-indigo-400">Instant Messaging</h3>
-                        <p class="text-gray-300 mt-2">Chat in real-time with no delays.</p>
+                        <h3 class="text-2xl font-bold text-indigo-400">File Sharing</h3>
+                        <p class="text-gray-300 mt-2">Easily share files and documents securely.</p>
                     </div>
                 </div>
                 <div class="bg-gray-900 p-8 rounded-lg shadow-md another-hover">
                    <span></span>
                     <div class="content relative z-10">
-                        <h3 class="text-2xl font-bold text-indigo-400">Instant Messaging</h3>
-                        <p class="text-gray-300 mt-2">Chat in real-time with no delays.</p>
+                        <h3 class="text-2xl font-bold text-indigo-400">Encrypted and Secure</h3>
+                        <p class="text-gray-300 mt-2">Your chats are private and secure.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section> 
-    {% comment %} <section class="justify-center items-center min-h-screen bg-[#1d061a]">
-        <div class="container flex justify-center items-center flex-wrap py-10">
-            <div class="box relative w-[320px] h-[400px] flex justify-center items-center mx-[30px] my-[40px] transition-transform duration-500 hover:before:transform[skewX(0deg)] hover:before:left-[20px] hover:before:w-[calc(100%-90px)] hover:after:transform[skewX(0deg)] hover:after:left-[20px] hover:after:w-[calc(100%-90px)]">
-                <span class="absolute inset-0 z-5 pointer-events-none">
-                    <span class="absolute top-0 left-0 w-0 h-0 rounded-lg bg-white/10 backdrop-blur-md opacity-0 transition-opacity duration-100 animate-pulse" style="animation-delay: -1s;"></span>
-                    <span class="absolute bottom-0 right-0 w-full h-full rounded-lg bg-white/10 backdrop-blur-md opacity-0 transition-opacity duration-500 animate-pulse" style="animation-delay: -1s;">
-
-                    </span>
-                </span>
-                <div class="content relative left-0 p-[20px_40px] bg-white/5 backdrop-blur-md shadow-md rounded-lg z-1 text-white transition-transform duration-500 hover:left[-25px] hover:p-[60px_40px]">
-                    <h2 class="text-[2em] text-white mb-[10px]">Title</h2>
-                    <p class="text-[1.1em] mb-[10px] leading-relaxed">Description</p>
-                    <a href="#" class="inline-block text-[1.1em] text-[#111] bg-white py-[10px] rounded-md font-bold mt-[5px] transition-colors duration-300 hover:bg-[#ffcf4d] border border-transparent hover:border-[#ff0058]/40 shadow-sm">Link</a>
-                </div> 
-            </div>
-        </div>
-    </section>  {% endcomment %}
-
+    
     <section class="py-16 holographic text-center">
         <h2 class="text-3xl font-bold">Start Your Chat Experience Today</h2>
         <p class="mt-4 text-lg">Sign up now and start chatting with ease.</p>
