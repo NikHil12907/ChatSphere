@@ -75,9 +75,17 @@ def room(request, room_name):
     except Room.DoesNotExist:
         messages.error(request, "The Room you tried to access does not exists")
         return redirect('room_list')
+    
+    if room.is_private:
+        other_user = room.active_users.exclude(id=request.user.id).first()
+        display_picture = other_user.profile.profile_picture.url if other_user and hasattr(other_user, 'profile') else '/images/default-avatar.png'
+    else:
+        display_picture = '/images/group-icon.jpg'
+    
+    users = User.objects.all().exclude(id=request.user.id)
     rooms = Room.objects.all()
     Notification.objects.filter(user=request.user, room=room, is_read=False).update(is_read=True)
-    return render(request, 'chat/room.html', {'room_name': room_name, 'rooms': rooms, 'username' : request.user.username, 'messages':messages})
+    return render(request, 'chat/room.html', {'room_name': room_name, 'rooms': rooms, 'username' : request.user.username, 'messages':messages, 'users':users, 'display_picture':display_picture})
 
 @login_required
 def create_room(request):

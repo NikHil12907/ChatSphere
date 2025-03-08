@@ -1,7 +1,7 @@
 {% extends "theme/base.html" %}
+{% comment %} {% extends "theme/base.html" %}
 {% block title %}Room List{% endblock %}
 {% block style %}
-{% comment %} Search Bar CSS Satrted {% endcomment %}
 .glow {
   top: -10%;
   left: -10%;
@@ -100,9 +100,7 @@
     transform: translate(10%, -10%) scale(1);
   }
 }
-{% comment %} Search Bar CSS Ended {% endcomment %}
 
-{% comment %} Banner Holographic Moving Animation Started {% endcomment %}
 .holographic {
   background: linear-gradient(135deg, #00ffff, #2596be );
   background-size: 500% 500%;
@@ -123,9 +121,7 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);;
 }
 
-{% comment %} Banner Holographic Moving Animation Ended {% endcomment %}
 
-{% comment %} Card Animation Started {% endcomment %}
   .another-hover{
   position: relative;
   background: rgba(255, 255, 255, 0.1);
@@ -213,55 +209,98 @@
   50% { transform: translate(-10px); }
 }
 
-{% comment %} Card Animation Ended {% endcomment %}
+
+
+ul li {
+  
+  position: relative;
+  list-style: none;
+  width: 60px;
+  height: 60px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 60px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+ul li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 60px;
+  background: linear-gradient(45deg, var(--i), var(--j));
+  opacity: 0;
+  transition: 0.5s;
+}
+
+ul li::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 60px;
+  background: linear-gradient(45deg, var(--i), var(--j));
+  transition: 0.5s;
+  filter: blur(15px);
+  z-index: -1;
+  opacity: 0;
+}
+
+ul li:hover {
+  width: 180px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0);
+}
+
+ul li:hover::before {
+  opacity: 1;
+}
+
+ul li:hover::after {
+  opacity: 0.5;
+}
+
+ul li ion-icon {
+  color: #777;
+  font-size: 1.75em;
+  transition: 0.5s;
+  transition-delay: 0.25s;
+}
+
+ul li:hover ion-icon {
+  transform: scale(0);
+  color: #fff;
+  transition-delay: 0s;
+}
+
+ul li span {
+  position: absolute;
+}
+
+ul li .title {
+  color: #fff;
+  font-size: 1.1em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: scale(0);
+  transition: 0.5s;
+  transition-delay: 0s;
+}
+
+ul li:hover .title {
+  transform: scale(1);
+  transition-delay: 0.25s;
+}
+
 
 {% endblock %}
   {% block content %}
-  {% comment %}
-  <main
-      class="mx-auto flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 text-white"
-    >
-      <section class="flex w-[30rem] flex-col space-y-10">
-        <div class="text-center text-4xl font-medium">
-          Available Rooms to Interact
-        </div>
-        <ul>
-          {% for room in rooms %} <a href="{% url "room" room.name %}">
-          <div class="bg-gray-800 shadow-lg rounded p-4 mb-2 flex justify-between items-center">
-            <div class="ml-4 flex flex-col justify-between">
-              <li>{{room.name}}</li>
-              <span id="badge-{{ room.name }}">
-                {% if room.unread_count > 0 %}{{ room.unread_count }}{% endif %}
-              </span>
-              <p class="text-sm text-gray-400 mt-2"> Created by: {{ room.creator.username }} </p>
-              {% if room.creator == user %}
-              <form action="{% url "delete_room" room.name %}" method="POST" onsubmit="return confirm('Are You Sure You want to delete this room?');" class="flex-shrink-0">
-                {% csrf_token %}
-                <button class=" bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded mt-2" type="submit">
-                  Delete
-                </button>
-              </form>
-            {% endif %}
-            </div>
-          </div>
-        </a>
-       
-          {% endfor %}
-        </ul>
-        <div class="flex text-center">
-          <a href="{% url "create_room" %}" class="bg-green-600 w-full text-white px-4 py-2 rounded hover:bg-green-500"> + Add Room</a>
-        </div>
-        <div class="flex justify-center mt-4">
-          <button
-            class="transform rounded-sm bg-indigo-600 py-2 font-bold duration-300 hover:bg-indigo-400 w-full"
-          >
-            <a href="{% url "logout" %}">Log Out
-          </button>
-        </div>
-        
 
-      </section>
-    </main> {% endcomment %}
+  
     <section class="py-20 flex flex-col items-center w-full">
       <div class="container mx-auto text-center px-6">
           <h2 class="text-4xl font-bold text-white">Why Choose ChatSphere</h2>
@@ -307,7 +346,15 @@
     </div>
   </section>
 
+  
+
+  
+
+  
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   {% endblock content %}
+
   
   <script>
     const socket = new WebSocket(
@@ -323,3 +370,222 @@
       }
   }
   </script>
+ {% endcomment %}
+
+
+{% block title %}Room List - ChatSphere{% endblock %}
+{% block style %}
+<style>
+  /* Neon Glow Animation */
+  @keyframes neonGlow {
+    0%, 100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
+    50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff; }
+  }
+
+  .neon-text {
+    animation: neonGlow 1.5s infinite alternate;
+  }
+
+  .holographic {
+    background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
+    background-size: 200% 200%;
+    animation: holoGlow 8s infinite ease-in-out;
+  }
+
+  @keyframes holoGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .cyber-card {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .cyber-card:hover {
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 255, 255, 0.4), 0 0 20px rgba(255, 0, 255, 0.6);
+  }
+
+  .neon-button {
+    background: linear-gradient(135deg, #00ffff, #ff00ff);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .neon-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.6);
+  }
+
+  /* Search Bar Glow Animation */
+  .glow {
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    border-radius: 100%;
+  }
+
+  .glow-1 {
+    animation: glow1 4s linear infinite;
+  }
+
+  .glow-2 {
+    animation: glow2 4s linear infinite;
+    animation-delay: 100ms;
+  }
+
+  .glow-3 {
+    animation: glow3 4s linear infinite;
+    animation-delay: 200ms;
+  }
+
+  .glow-4 {
+    animation: glow4 4s linear infinite;
+    animation-delay: 300ms;
+  }
+
+  @keyframes glow1 {
+    0% { transform: translate(10%, 10%) scale(1); }
+    25% { transform: translate(-10%, 10%) scale(1); }
+    50% { transform: translate(-10%, -10%) scale(1); }
+    75% { transform: translate(10%, -10%) scale(1); }
+    100% { transform: translate(10%, 10%) scale(1); }
+  }
+
+  @keyframes glow2 {
+    0% { transform: translate(-10%, -10%) scale(1); }
+    25% { transform: translate(10%, -10%) scale(1); }
+    50% { transform: translate(10%, 10%) scale(1); }
+    75% { transform: translate(-10%, 10%) scale(1); }
+    100% { transform: translate(-10%, -10%) scale(1); }
+  }
+
+  @keyframes glow3 {
+    0% { transform: translate(-10%, 10%) scale(1); }
+    25% { transform: translate(-10%, -10%) scale(1); }
+    50% { transform: translate(10%, -10%) scale(1); }
+    75% { transform: translate(10%, 10%) scale(1); }
+    100% { transform: translate(-10%, 10%) scale(1); }
+  }
+
+  @keyframes glow4 {
+    0% { transform: translate(10%, -10%) scale(1); }
+    25% { transform: translate(10%, 10%) scale(1); }
+    50% { transform: translate(-10%, 10%) scale(1); }
+    75% { transform: translate(-10%, -10%) scale(1); }
+    100% { transform: translate(10%, -10%) scale(1); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-20 flex flex-col items-center w-full">
+  <div class="container mx-auto text-center px-6">
+    <h2 class="text-4xl font-bold neon-text">Recommended Users</h2>
+    <p class="text-gray-400 mt-4">Connect with users who share your interests.</p>
+    <div class="mt-12 grid md:grid-cols-4 gap-8">
+      {% if users %}
+        {% for user in recommended_users %}
+        <div class="cyber-card p-8 rounded-lg hover-effect">
+          <div class="content relative z-10">
+            <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class="inline-block rounded-full ring-2 ring-cyan-400 h-14 w-14 mb-4">
+            <h3 class="text-2xl text-cyan-400 mb-4">{{ user.username }}</h3>
+            <a href="#" class="text-gray-300 hover:text-cyan-400">View Profile</a>
+            <a href="{% url 'private_chat' user.username %}" class="neon-button mt-6 px-4 py-2 rounded-lg">Start Chatting</a>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-gray-400">No users found.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="relative holographic text-center py-24">
+  <div class="container mx-auto px-6">
+    <h1 class="text-5xl font-bold neon-text">Search by Interest or User</h1>
+    <div class="relative p-12 w-full sm:max-w-2xl sm:mx-auto">
+      <div class="overflow-hidden z-0 rounded-full relative p-3">
+        <form role="form" class="relative flex z-50 rounded-full">
+          <input type="text" placeholder="Enter your search here" class="rounded-full flex-1 px-6 py-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+          <button class="neon-button px-8 py-4 rounded-full font-semibold">Search</button>
+        </form>
+        <div class="glow glow-1 z-10 bg-pink-400 absolute"></div>
+        <div class="glow glow-2 z-20 bg-purple-400 absolute"></div>
+        <div class="glow glow-3 z-30 bg-yellow-400 absolute"></div>
+        <div class="glow glow-4 z-40 bg-blue-400 absolute"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 flex flex-col items-center w-full">
+  <div class="container mx-auto text-center px-6">
+      <h4 class="text-4xl font-bold text-white">Suggested Groups to Interact</h2>
+      
+      <div class="mt-12 grid md:grid-cols-4 sm:none gap-8">
+        {% if rooms %}  
+          {% for room in rooms %}
+          <div class="bg-gray-900 p-8 rounded-lg shadow-md another-hover">
+            <span></span>
+            <div class="content relative z-10">
+                <h3 class="text-2xl text-indigo-400 mb-4">{{ room.name }}</h3>
+                <p class="text-white flex justify-center text-center mb-4">Created by: {{ room.creator.username }}</p>
+                <a href="{% url "room" room.name%}" style="background-color:#2596be; " class="mt-6 transform rounded-sm px-3 py-2 duration-300 hover:bg-indigo-400 w-full hover:shadow-md">Join Group</a> 
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <p>No User in db</p>
+        {% endif %}
+
+      </div>
+  </div>
+</section>
+
+<section class=" flex relative holographic text-center py-24">
+  <div class="container mx-auto px-6 justify-center">
+      <h1 class="text-5xl font-bold">Create Your own Group</h1>
+        <div class="relative p-12 w-full sm:max-w-2xl sm:mx-auto">
+          <ul class="gap-3 flex flex-row">
+            <li style="--i:#a955ff;--j:#ea51ff" class="ml-40">
+              <span class="icon"><ion-icon name="add-outline"></ion-icon></span>
+              <span class="title"><a href="{% url "create_room" %}">Add Group</a></span>
+            </li>
+            <li style="--i:#a955ff;--j:#ea51ff">
+              <span class="icon"><ion-icon name="arrow-forward-outline"></ion-icon></span>
+              <span class="title"><a href="{% url "search_users" %}">Join Groups</a></span>
+            </li>
+            <li style="--i:#a955ff;--j:#ea51ff">
+              <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+              <span class="title"><a href="{% url "logout" %}">Log Out</a></span>
+            </li>
+          </ul>
+        </div>
+  </div>
+</section>
+{% endblock %}
+
+<script>
+  const socket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/notifications/"
+  );
+  socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    if (data.type === "notify_users") {
+      const badge = document.getElementById(badge-${data.room_name});
+      const currentCount = parseInt(badge.textContent || "0");
+      badge.textContent = currentCount + 1 + " New Messages..";
+      badge.style.display = "inline";
+    }
+  };
+</script>
