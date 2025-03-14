@@ -1,0 +1,16 @@
+[33m7c02f93[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mveer[m[33m, [m[1;31morigin/veer[m[33m)[m HEAD@{0}: checkout: moving from main to veer
+[33m55136e8[m[33m ([m[1;32mmain[m[33m)[m HEAD@{1}: checkout: moving from veer to main
+[33m7c02f93[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mveer[m[33m, [m[1;31morigin/veer[m[33m)[m HEAD@{2}: reset: moving to HEAD
+[33m7c02f93[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mveer[m[33m, [m[1;31morigin/veer[m[33m)[m HEAD@{3}: commit: Frontend changes
+[33md1bfb43[m HEAD@{4}: checkout: moving from main to veer
+[33m55136e8[m[33m ([m[1;32mmain[m[33m)[m HEAD@{5}: reset: moving to HEAD
+[33m55136e8[m[33m ([m[1;32mmain[m[33m)[m HEAD@{6}: reset: moving to HEAD
+[33m55136e8[m[33m ([m[1;32mmain[m[33m)[m HEAD@{7}: pull: Fast-forward
+[33me5b0dba[m HEAD@{8}: checkout: moving from veer to main
+[33md1bfb43[m HEAD@{9}: commit: edited rooom.html
+[33me5b0dba[m HEAD@{10}: checkout: moving from main to veer
+[33me5b0dba[m HEAD@{11}: pull: Fast-forward
+[33m5564a48[m HEAD@{12}: pull: Fast-forward
+[33m6455062[m HEAD@{13}: pull: Fast-forward
+[33md2596c2[m HEAD@{14}: commit: new icon and input box
+[33m98e04aa[m HEAD@{15}: clone: from https://github.com/NikHil12907/ChatSphere.git

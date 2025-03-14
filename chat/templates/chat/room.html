@@ -8,165 +8,259 @@
     <script src="https://kit.fontawesome.com/27238bd807.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% tailwind_css %}
-    
+    <style>
+      /* Custom Glow Effect */
+      .glow-border {
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+      }
+
+      .glow-border:hover {
+        border-color: rgba(99, 102, 241, 0.6);
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.5), 0 0 30px rgba(99, 102, 241, 0.4);
+      }
+
+      .glow-button {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(79, 70, 229, 0.9));
+        border: 1px solid rgba(99, 102, 241, 0.5);
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+      }
+
+      .glow-button:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 1), rgba(79, 70, 229, 1));
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.5), 0 0 30px rgba(99, 102, 241, 0.4);
+      }
+
+      .chat-message {
+        background: rgba(99, 102, 241, 0.1);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .chat-message:hover {
+        border-color: rgba(99, 102, 241, 0.5);
+      }
+    </style>
   </head>
   <body class="bg-gray-900 text-gray-100 w-full h-screen overflow-hidden">
     <div class="flex h-screen">
-      <aside style="background-color:#36404a; width:5%" class="flex flex-col items-center justify-center space-y-8">
-            <ul class="space-y-6">
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('profile')"><i class="fa-regular fa-user" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('settings')"><i class="fa-solid fa-sliders" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('rooms')"><i class="fa-solid fa-users-line" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('log-out')"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></li>
-            </ul>
+      <!-- Sidebar -->
+      <aside class="bg-gray-800 w-16 flex flex-col items-center justify-center space-y-8 shadow-lg glow-border">
+        <ul class="space-y-6">
+          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('profile')">
+            <i class="fa-regular fa-user text-indigo-400"></i>
+          </li>
+          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('rooms')">
+            <i class="fa-brands fa-rocketchat text-indigo-400"></i>
+          </li>
+          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('settings')">
+            <i class="fa-solid fa-gear text-indigo-400"></i>
+          </li>
+        </ul>
       </aside>
 
-      {% comment %} Middle Section {% endcomment %}
-      <section id="dynamic-section" style="background-color:#303942" class="w-1/4 bg-gray-600 text-white sm:block overflow-y-auto shadow-lg h-full">
-        <div id="profile" class="p-4 hidden">
-          <h1 class="text-xl font-semibold ml-4">Profile </h1>
-          
-          {% comment %} profile pic {% endcomment %}
-          <div class="flex justify-center w-full items-center">
-            <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class=""> 
-          </div>
+      <!-- Main Chat Section -->
+      <main class="flex-1 flex flex-col">
+        <header class="p-4 bg-gray-800 shadow-lg glow-border">
+          <h2 class="text-lg font-medium text-indigo-400" id="chat-title">{{ room_name }}</h2>
+        </header>
 
-          <div class="text-center">
-            <h1 class="text-lg font-medium">{{ user.username }}</h1>
-            <p>{{ user.profile.bio|default:"No Bio Available" }}</p>
-          </div>
-
-          <div class="flex justify-center">
-            <p>{{ user.profile.dob|date:"F j, Y"|default:"Not Provided" }}</p>
-          </div>
-
-        </div>
-        <div id="settings" class="p-4 hidden ">
-          <h1 class="text-xl font-semibold">Settings</h1>
-          <p class="mt-4">Settings options will go here</p>
-        </div>
-        <div id="log-out" class="p-4 hidden ">
-          <h1 class="text-xl font-semibold">Log-out</h1>
-          <p class="mt-4">Log-out</p>
-        </div>
-        <div id="rooms" class="p-4 hidden ">
-          <h1 class="text-xl font-semibold">Available Groups</h1>
-          <ul class="mt-4">
-            {% for room in rooms %}
-              <li>
-                <a href={% url "room" room.name %} class="block p-3 bg-inherit hover:bg-gray-500 mt-2 transition-all items-center">
-                  {{ room.name }}
-                  {% if room.unread_count %}
-                    <span style="background-color: red; color:white;"  class=" text-white text-xs font-semibold ml-auto px-2 py-1 rounded-full">{{ room.unread_count }}</span>
-                  {% endif %}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-
-        <main class="flex-1 flex flex-col">
-          <header class="p-4 text-white " style="background-color:#252e35">
-            <h2 class="text-lg font-medium">{{ room_name }}</h2>
-          </header>
-  
-          <div id="chat-log" class="flex-1 overflow-y-auto p-4" style="background-color:#252e35">
-            {% for message in messages %}
-              <div class="my-2 {% if message.user.username == username %}ml-auto text-right {% else %}mr-auto text-left{% endif %}">
-                <div class="text-sm font-semibold text-white mb-1">{{ message.user.username  }}</div>
-                <div style="background-color:#746de6 " class="p-3 text-white  max-w-ws inline-block rounded-lg break-words shadow-lg">{{ message.content }}</div>
-                <div class="text-xs text-gray-300 mt-1">{{ message.timeStamp }}</div>
-              </div>
-            {% endfor %}
-          </div>
-  
-          <footer class="p-4" style="background-color:#252e35">
-            <div class="flex items-center space-x-2 mb-4">
-              <input
-                type="text"
-                id="chat-message-input"
-                class="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" style="color:rgb(255, 255, 255)" placeholder="Type your message..."
-              /><br />
-              <input
-                type="button"
-                value="Send"
-                class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md focus:outline-none transition"
-                id="chat-message-submit"
-              /><br />
+        <!-- Chat Log -->
+        <div id="chat-log" class="flex-1 overflow-y-auto p-4 bg-gray-700">
+          {% for message in messages %}
+            <div class="my-2 {% if message.user.username == username %}ml-auto text-right{% else %}mr-auto text-left{% endif %}">
+              <div class="text-sm font-semibold text-gray-300 mb-1">{{ message.user.username }}</div>
+              <div class="p-3 bg-indigo-600 text-white max-w-xs inline-block rounded-lg shadow-lg break-words chat-message">{{ message.content }}</div>
+              <div class="text-xs text-gray-400 mt-1">{{ message.timeStamp }}</div>
             </div>
-          </footer>
-        </main>
+          {% endfor %}
+        </div>
+
+        <!-- Chat Input -->
+        <footer class="p-4 bg-gray-800 shadow-lg glow-border">
+          <div class="flex items-center space-x-2">
+            <input
+              type="text"
+              id="chat-message-input"
+              class="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Type your message..."
+            />
+            <input type="file" id="file-input" class="hidden" multiple>
+            <label for="file-input" class="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer glow-border">
+              <i class="fa-solid fa-paperclip text-gray-300"></i>
+            </label>
+            <button
+              id="chat-message-submit"
+              class="glow-button text-white px-4 py-2 rounded-lg shadow-md focus:outline-none transition"
+            >
+              Send
+            </button>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- Popup Modals -->
+    <!-- Profile Popup -->
+    <div id="profile-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
+        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Profile</h1>
+        <div class="flex justify-center">
+          <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class="w-24 h-24 rounded-full border-2 border-indigo-400">
+        </div>
+        <div class="text-center mt-4">
+          <h1 class="text-lg font-medium text-gray-100">{{ user.username }}</h1>
+          <p class="text-sm text-gray-300">{{ user.profile.bio|default:"No Bio Available" }}</p>
+        </div>
+        <div class="text-center mt-2">
+          <p class="text-sm text-gray-300">{{ user.profile.dob|date:"F j, Y"|default:"Not Provided" }}</p>
+        </div>
+        <button onclick="hidePopup('profile-popup')" class="mt-4 w-full p-2 glow-button rounded-lg">Close</button>
       </div>
-      {{ room_name|json_script:"room-name" }}   
-  </body> 
-  <script> 
-    const roomName = JSON.parse(
-      document.getElementById("room-name").textContent
-    );
+    </div>
 
-    const chatSocket = new WebSocket(
-      "ws://" + window.location.host + "/ws/chat/" + roomName + "/"
-    );
+    <!-- Rooms Popup -->
+    <div id="rooms-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
+        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Rooms</h1>
+        <ul>
+          {% for room in rooms %}
+            <li class="p-2 hover:bg-gray-700 rounded-lg cursor-pointer glow-border">
+              <a href={% url "room" room.name %} class="block">{{ room.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        <button onclick="hidePopup('rooms-popup')" class="mt-4 w-full p-2 glow-button rounded-lg">Close</button>
+      </div>
+    </div>
 
-    chatSocket.onmessage = function (event) {
-      const data = JSON.parse(event.data);
-      const currentUsername = "{{ username }}";
-      const chatLog = document.querySelector("#chat-log");
+    <!-- Settings Popup -->
+    <div id="settings-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
+        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Settings</h1>
+        <div class="space-y-4">
+          <!-- Theme Selection -->
+          <div>
+            <h2 class="text-lg font-medium text-gray-100">Theme</h2>
+            <select class="w-full p-2 bg-gray-700 text-gray-100 rounded-lg focus:outline-none">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="system">System Default</option>
+            </select>
+          </div>
 
-      if(!data.message || data.message.trim() === ""){
-        return;
+          <!-- Notification Preferences -->
+          <div>
+            <h2 class="text-lg font-medium text-gray-100">Notifications</h2>
+            <div class="flex items-center space-x-4">
+              <label class="flex items-center">
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-indigo-400">
+                <span class="ml-2 text-gray-300">Enable Notifications</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Logout Button -->
+          <div>
+            <button onclick="showPopup('log-out')" class="w-full p-2 bg-red-600 hover:bg-red-500 text-white rounded-lg">Log Out</button>
+          </div>
+        </div>
+        <button onclick="hidePopup('settings-popup')" class="mt-4 w-full p-2 glow-button rounded-lg">Close</button>
+      </div>
+    </div>
+
+    <!-- Log-out Popup -->
+    <div id="log-out-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md transform transition-all duration-300 ease-in-out glow-border">
+        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Log-out</h1>
+        <p class="mb-4 text-gray-300">Are you sure you want to log out?</p>
+        <button class="w-full p-2 bg-red-600 hover:bg-red-500 text-white rounded-lg">Log Out</button>
+        <button onclick="hidePopup('log-out-popup')" class="mt-2 w-full p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg">Cancel</button>
+      </div>
+    </div>
+
+    {{ room_name|json_script:"room-name" }}
+    <script>
+      function showPopup(popupId) {
+        const popup = document.getElementById(`${popupId}-popup`);
+        popup.classList.remove("hidden");
+        setTimeout(() => popup.classList.add("opacity-100"), 10);
       }
 
-      const msgContainer = document.createElement("div");
-      const usernameDiv = document.createElement("div");
-      const messageDiv = document.createElement("div");
-      const timeStampDiv = document.createElement("div");
-
-      usernameDiv.textContent = data.username;
-      usernameDiv.classList.add(
-        "text-sm",
-        "font-semibold",
-        "text-white",
-        "mb-1"
-      );
-      messageDiv.textContent = data.message;
-      messageDiv.classList.add(
-        "p-3",
-        "bg-indigo-600",
-        "text-white",
-        "max-w-ws",
-        "inline-block",
-        "rounded-lg",
-        "break-words",
-        "shadow-lg"
-      );
-      timeStampDiv.textContent = data.timeStamp
-      timeStampDiv.classList.add("text-xs", "text-gray-300", "mt-1")
-
-      if (data.username === currentUsername) {
-        msgContainer.classList.add( "text-right" );
-      } else {
-        msgContainer.classList.add( "text-left");
+      function hidePopup(popupId) {
+        const popup = document.getElementById(popupId);
+        popup.classList.remove("opacity-100");
+        setTimeout(() => popup.classList.add("hidden"), 300);
       }
 
-      msgContainer.appendChild(usernameDiv);
-      msgContainer.appendChild(messageDiv);
-      msgContainer.appendChild(timeStampDiv);
-      chatLog.appendChild(msgContainer);
+      // Close popup when clicking outside the modal
+      window.onclick = function (event) {
+        const modals = ["profile-popup", "rooms-popup", "settings-popup", "log-out-popup"];
+        modals.forEach((modalId) => {
+          const modal = document.getElementById(modalId);
+          if (event.target === modal) {
+            hidePopup(modalId);
+          }
+        });
+      };
 
-      chatLog.scrollTop = chatLog.scrollHeight;
-    };
+      // WebSocket and chat functionality 
+      const roomName = JSON.parse(document.getElementById("room-name").textContent);
+      const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + roomName + "/");
 
-    chatSocket.onclose = function (e) {
-      console.error("Chat Socket Closed unexpectedly");
-    };
+      chatSocket.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const currentUsername = "{{ username }}";
+        const chatLog = document.querySelector("#chat-log");
 
-    document.querySelector("#chat-message-input").focus();
-    document.querySelector("#chat-message-input").onkeyup = function (e) {
-      if (e.keyCode === 13) {
-        document.querySelector("#chat-message-submit").click();
-      }
+        if (data.message) {
+          const msgContainer = document.createElement("div");
+          const usernameDiv = document.createElement("div");
+          const messageDiv = document.createElement("div");
+          const timeStampDiv = document.createElement("div");
+
+          usernameDiv.textContent = data.username;
+          usernameDiv.classList.add("text-sm", "font-semibold", "text-gray-300", "mb-1");
+          messageDiv.textContent = data.message;
+          messageDiv.classList.add("p-3", "bg-indigo-600", "text-white", "max-w-xs", "inline-block", "rounded-lg", "shadow-lg", "break-words");
+          timeStampDiv.textContent = data.timeStamp;
+          timeStampDiv.classList.add("text-xs", "text-gray-400", "mt-1");
+
+          if (data.username === currentUsername) {
+            msgContainer.classList.add("text-right");
+          } else {
+            msgContainer.classList.add("text-left");
+          }
+
+          msgContainer.appendChild(usernameDiv);
+          msgContainer.appendChild(messageDiv);
+          msgContainer.appendChild(timeStampDiv);
+          chatLog.appendChild(msgContainer);
+        } else if (data.file) {
+          const filelink = document.createElement('a');
+          filelink.href = data.file;
+          filelink.download = data.filename;
+          filelink.textContent = `Download ${data.filename}`;
+          filelink.classList.add("text-indigo-400", "hover:text-indigo-300");
+
+          const fileDiv = document.createElement('div');
+          fileDiv.classList.add("my-2");
+          fileDiv.appendChild(filelink);
+          chatLog.appendChild(fileDiv);
+        }
+        chatLog.scrollTop = chatLog.scrollHeight;
+      };
+
+      chatSocket.onclose = function (e) {
+        console.error("Chat Socket Closed unexpectedly");
+      };
+
+      document.querySelector("#chat-message-input").focus();
+      document.querySelector("#chat-message-input").onkeyup = function (e) {
+        if (e.keyCode === 13) {
+          document.querySelector("#chat-message-submit").click();
+        }
+      };
+
       document.querySelector("#chat-message-submit").onclick = function (e) {
         let messageInputDom = document.querySelector("#chat-message-input");
         let msg = messageInputDom.value;
@@ -179,14 +273,89 @@
           messageInputDom.value = "";
         }
       };
-    };
- 
-    function showSection(sectionID){
-      const sections = ["profile", "settings", "log-out", "rooms"]
-      sections.forEach((id) => {
-        document.getElementById(id).classList.add("hidden");
-        });
-        document.getElementById(sectionID).classList.remove("hidden");
-    }
-  </script>
+
+      document.querySelector('#file-submit').onclick = function (e) {
+        const fileInput = document.querySelector('#file-input');
+        const files = fileInput.files;
+        const username = "{{ username }}";
+
+        if (files.length > 0) {
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            (function (currentFile) {
+              const reader = new FileReader();
+
+              reader.onload = function (event) {
+                const base64File = event.target.result;
+
+                chatSocket.send(
+                  JSON.stringify({
+                    command: 'new_file',
+                    file: base64File,
+                    filename: currentFile.name,
+                    filetype: currentFile.type,
+                    from: username,
+                  })
+                );
+              };
+
+              reader.readAsDataURL(currentFile);
+            })(file);
+          }
+        }
+        fileInput.value = '';
+      };
+
+      function openChat(username) {
+        document.getElementById("chat-title").textContent = username;
+        document.getElementById("chat-log").innerHTML = "";
+
+        if (window.CurrentChatSocket) {
+          console.log("closing old socket");
+          window.CurrentChatSocket.close();
+        }
+
+        const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + username + "/");
+
+        chatSocket.onopen = function () {
+          console.log("connected to: ", username);
+        };
+
+        chatSocket.onclose = function () {
+          console.log("disconnected to: ", username);
+        };
+
+        window.currentChatSocket = chatSocket;
+
+        chatSocket.onmessage = function (event) {
+          const data = JSON.parse(event.data);
+          console.log(data);
+
+          if (data.type === 'chat_message') {
+            const chatLog = document.getElementById("chat-log");
+            const msgContainer = document.createElement("div");
+            msgContainer.classList.add("my-2", data.username === username ? "text-right" : "text-left");
+
+            msgContainer.innerHTML = `
+              <div class="text-sm font-semibold text-gray-300 mb-1">${data.username}</div>
+              <div class="p-3 bg-indigo-600 text-white max-w-xs inline-block rounded-lg shadow-lg">${data.message}</div>
+              <div class="text-xs text-gray-400 mt-1">${data.timeStamp}</div>
+            `;
+            chatLog.appendChild(msgContainer);
+            chatLog.scrollTop = chatLog.scrollHeight;
+          }
+        };
+
+        document.getElementById("chat-message-submit").onclick = function () {
+          const messageInput = document.getElementById("chat-message-input");
+          const message = messageInput.value;
+          if (message.trim()) {
+            window.currentChatSocket.send(JSON.stringify({ message }));
+            messageInput.value = "";
+          }
+        };
+      }
+    </script>
+  </body>
 </html>

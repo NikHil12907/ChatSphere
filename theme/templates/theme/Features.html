@@ -1,0 +1,154 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Features - ChatSphere</title>
+    {% tailwind_css %}
+    <style>
+      /* Cyberpunk Glow Animation */
+      @keyframes neonGlow {
+        0%, 100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
+        50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff; }
+      }
+
+      .neon-text {
+        animation: neonGlow 1.5s infinite alternate;
+      }
+
+      .holographic {
+        background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
+        background-size: 200% 200%;
+        animation: holoGlow 8s infinite ease-in-out;
+      }
+
+      @keyframes holoGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .cyber-card {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .cyber-card:hover {
+        border-color: rgba(0, 255, 255, 0.6);
+        box-shadow: 0 8px 32px rgba(0, 255, 255, 0.4), 0 0 20px rgba(255, 0, 255, 0.6);
+      }
+
+      .neon-button {
+        background: linear-gradient(135deg, #00ffff, #ff00ff);
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+      }
+
+      .neon-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.6);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white">
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+
+      <!-- Hero Section -->
+      <section class="text-center mb-12">
+        <h1 class="text-4xl font-extrabold neon-text mb-4">About ChatSphere</h1>
+        <p class="text-lg text-gray-400">Building the future of communication, together.</p>
+      </section>
+
+      <!-- Mission Section -->
+      <section class="cyber-card p-8 mb-12">
+        <h2 class="text-2xl font-bold text-cyan-400 mb-4">Our Mission</h2>
+        <p class="text-gray-300 leading-relaxed">At ChatSphere, our mission is to revolutionize the way people connect and communicate. We aim to provide a seamless, secure, and futuristic platform for real-time messaging, file sharing, and collaboration. Our goal is to empower individuals and teams to communicate effortlessly, no matter where they are.</p>
+      </section>
+
+      <!-- Core Values Section -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-cyan-400 mb-4">Our Core Values</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Innovation -->
+          <div class="cyber-card p-6 text-center">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">Innovation</h3>
+            <p class="text-gray-300">We embrace change and continuously seek new ways to improve. Our team is dedicated to pushing the boundaries of technology to deliver cutting-edge solutions.</p>
+          </div>
+          <!-- User Focus -->
+          <div class="cyber-card p-6 text-center">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">User Focus</h3>
+            <p class="text-gray-300">Our users are at the heart of everything we do. We design our platform with their needs in mind, ensuring a seamless and enjoyable experience.</p>
+          </div>
+          <!-- Integrity -->
+          <div class="cyber-card p-6 text-center">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">Integrity</h3>
+            <p class="text-gray-300">We uphold the highest standards of integrity in all our actions. Transparency and trust are the cornerstones of our business.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="mb-13">
+        <h2 class="text-2xl font-bold text-cyan-400 mb-4">Why Choose ChatSphere?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div class="cyber-card p-6">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">Real-Time Messaging</h3>
+            <p class="text-gray-300">Chat in real-time with no delays. Our platform ensures instant communication, so you never miss a beat.</p>
+          </div>
+          <!-- Feature 2 -->
+          <div class="cyber-card p-6">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">End-to-End Encryption</h3>
+            <p class="text-gray-300">Your messages are secure and private, always. We use advanced encryption to protect your data.</p>
+          </div>
+          <!-- Feature 3 -->
+          <div class="cyber-card p-6">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">Multi-Platform Sync</h3>
+            <p class="text-gray-300">Access your chats from any device, anywhere. Stay connected whether you're on your phone, tablet, or computer.</p>
+          </div>
+          <!-- Feature 4 -->
+          <div class="cyber-card p-6">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">Customizable Themes</h3>
+            <p class="text-gray-300">Personalize your chat experience with dynamic themes. Choose from a variety of colors and styles to make ChatSphere your own.</p>
+          </div>
+          <!-- Feature 5 -->
+          <div class="cyber-card p-6">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">File Sharing</h3>
+            <p class="text-gray-300">Share files, images, and videos instantly. Our platform supports fast and secure file transfers.</p>
+          </div>
+          <!-- Feature 6 -->
+          <div class="cyber-card p-6">
+            <h3 class="text-xl font-semibold text-cyan-400 mb-2">Voice & Video Calls</h3>
+            <p class="text-gray-300">Enjoy high-quality voice and video calls with no lag. Stay connected with crystal-clear audio and video.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="text-center">
+        <h2 class="text-2xl font-bold text-cyan-400 mb-4 mt-6">Join Us on Our Journey</h2>
+        <p class="text-gray-300 mb-6">Be a part of the future of communication. Start your free trial today and experience the next generation of messaging.</p>
+       
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-white py-8 text-center">
+      <div class="container mx-auto px-4">
+        <p>&copy; 2025 ChatSphere. All rights reserved.</p>
+        <div class="mt-4 space-x-4">
+          <a href="#" class="text-cyan-400 hover:text-cyan-300">Privacy Policy</a>
+          <a href="#" class="text-cyan-400 hover:text-cyan-300">Terms of Service</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
