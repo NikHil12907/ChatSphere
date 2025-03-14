@@ -6,6 +6,8 @@ class Room(models.Model):
     name = models.CharField(max_length=100, unique=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True )
     is_private = models.BooleanField(default=False)
+    is_group = models.BooleanField(default=False)
+    participant = models.ForeignKey(User, related_name='private_rooms', null=True, blank=True, on_delete=models.SET_NULL)
     active_users = models.ManyToManyField(User, related_name="active_rooms", blank=True)
     
     @staticmethod
@@ -15,6 +17,9 @@ class Room(models.Model):
         room, created = Room.objects.get_or_create(name=room_name, is_private=True)
         if created:
             print(f"Room '{room_name}' created.")
+            
+            room.participant = user2 if room.creator == user1 else user1
+            room.save()
         else:
             print(f"The Room is already exists.")
         return room
@@ -51,6 +56,9 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"Notification for {self.user.username} - {self.message}"
+    
 class Profile(models.Model):
     user =  models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     bio = models.TextField(null=True, blank=True)
@@ -59,3 +67,24 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user.username
+    
+class File(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='files')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    filename = models.CharField(max_length=255)
+    content = models.FileField(upload_to='uploads/')
+    filetype = models.CharField(max_length=50)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.filename} uploaded by {self.user.username} in {self.room.name}"
+    
+class PrivateMessage(models.Model):
+    sender = models.ForeignKey(User, related_name="sent_messages", on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name="received_messages", on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"Private from {self.sender.username} to {self.receiver.username} at {self.timestamp}" 

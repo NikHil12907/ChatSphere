@@ -1,4 +1,4 @@
-{% load static tailwind_tags %}
+{% comment %} {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,16 +10,13 @@
 
   <body class="min-h-screen overflow-hidden bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 flex items-center justify-center">
 
-    {% comment %} Main Wrap {% endcomment %}
     <div class="flex w-full max-w-4xl h-auto sm:h-[70vh] rounded-lg overflow-hidden shadow-lg">
         
-        {% comment %} Left Login span {% endcomment %}
         <div class="hidden sm:block sm:w-1/2 text-center bg-gradient-to-tr from-indigo-600 to-purple-800 text-white flex-col justify-center items-center p-8">
           <h1 class="text-4xl font-bold mb-4 ">login</h1>
           <p class="text-lg text-gray-200">Just a step away to explore </p>
         </div>
       
-        {% comment %} Right Section Login Ui {% endcomment %}
       <div class="w-full sm:w-1/2 bg-gray-800 text-white flex flex-col justify-center items-center p-8">
         <form action="{% url "login" %}" method="post">
           {% csrf_token %}
@@ -34,6 +31,105 @@
           <button class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-500 transition">Login</button>
           <p class="text-gray-400 mt-4 text-center">Forget Password? <a href="{% url "password_reset" %}"> Register </a> </p>
           <p class="text-gray-400 mt-4 text-center">Dont have Account? <a href="{% url "register" %}"> Register </a> </p>
+        </form>
+      </div>
+
+    </div>
+   
+    
+  </body>
+</html> {% endcomment %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - ChatSphere</title>
+    {% tailwind_css %}
+    <style>
+      /* Neon Glow Animation */
+      @keyframes neonGlow {
+        0%, 100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
+        50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff; }
+      }
+
+      .neon-text {
+        animation: neonGlow 1.5s infinite alternate;
+      }
+
+      .holographic {
+        background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
+        background-size: 200% 200%;
+        animation: holoGlow 8s infinite ease-in-out;
+      }
+
+      @keyframes holoGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .cyber-card {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .cyber-card:hover {
+        border-color: rgba(0, 255, 255, 0.6);
+        box-shadow: 0 8px 32px rgba(0, 255, 255, 0.4), 0 0 20px rgba(255, 0, 255, 0.6);
+      }
+
+      .neon-border {
+        border: 2px solid transparent;
+        border-image: linear-gradient(135deg, #00ffff, #ff00ff);
+        border-image-slice: 1;
+      }
+
+      .neon-button {
+        background: linear-gradient(135deg, #00ffff, #ff00ff);
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+      }
+
+      .neon-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.6);
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+
+    {% comment %} Main Wrap {% endcomment %}
+    <div class="flex w-full max-w-4xl h-auto sm:h-[70vh] rounded-lg overflow-hidden shadow-lg cyber-card">
+        
+        {% comment %} Left Login span {% endcomment %}
+        <div class="hidden sm:block sm:w-1/2 text-center bg-gradient-to-tr from-indigo-600 to-purple-800 text-white flex-col justify-center items-center p-8">
+          <h1 class="text-4xl font-bold mb-4 neon-text">Login</h1>
+          <p class="text-lg text-gray-200">Just a step away to explore the future of communication.</p>
+        </div>
+      
+        {% comment %} Right Section Login Ui {% endcomment %}
+      <div class="w-full sm:w-1/2 bg-gray-800 text-white flex flex-col justify-center items-center p-8">
+        <form action="{% url 'login' %}" method="post" class="w-full">
+          {% csrf_token %}
+          <div class="mb-4">
+            <label class="block text-gray-300 mb-2">Username</label>
+            <input type="text" name="username" class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400">
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-300 mb-2">Password</label>
+            <input type="password" name="password" class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400">
+          </div>
+          <button class="w-full neon-button py-2 rounded-lg hover-effect">Login</button>
+          <p class="text-gray-400 mt-4 text-center">Forgot Password? <a href="{% url 'password_reset' %}" class="text-cyan-400 hover:text-cyan-300">Reset</a></p>
+          <p class="text-gray-400 mt-4 text-center">Don't have an account? <a href="{% url 'register' %}" class="text-cyan-400 hover:text-cyan-300">Register</a></p>
         </form>
       </div>
 

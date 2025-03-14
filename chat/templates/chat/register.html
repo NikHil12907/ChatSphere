@@ -4,80 +4,144 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registration</title>
+    <title>Register - ChatSphere</title>
     {% tailwind_css %}
+    <style>
+      /* Neon Glow Animation */
+      @keyframes neonGlow {
+        0%, 100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
+        50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff; }
+      }
+
+      .neon-text {
+        animation: neonGlow 1.5s infinite alternate;
+      }
+
+      .holographic {
+        background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
+        background-size: 200% 200%;
+        animation: holoGlow 8s infinite ease-in-out;
+      }
+
+      @keyframes holoGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .cyber-card {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .cyber-card:hover {
+        border-color: rgba(0, 255, 255, 0.6);
+        box-shadow: 0 8px 32px rgba(0, 255, 255, 0.4), 0 0 20px rgba(255, 0, 255, 0.6);
+      }
+
+      .neon-button {
+        background: linear-gradient(135deg, #00ffff, #ff00ff);
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+      }
+
+      .neon-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.6);
+      }
+    </style>
   </head>
-  <body class="bg-gradient-to-tr from-indigo-600 to-purple-800 text-white overflow-hidden flex items-center justify-center min-h-screen">
-    <div class="bg-gray-800 rounded-lg shadow-md p-6 w-full max-w-md mx-4">
-      <h1 class="text-center text-3xl font-bold mb-6">Register</h1>
-      <form method="post" class="space-y-5">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
 
-        {% comment %} Username {% endcomment %}
-        <div>
-          <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          name="username"
-          id="username"
-          class="w-full bg-gray-700 text-gray-200 p-3 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
-          value="{{ form.username.value|default:"" }}"
-        />
-        <p class="text-sm text-red-500 mt-1">{{ form.username.errors }}</p>
+  <body class="min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+
+    {% comment %} Main Wrap {% endcomment %}
+    <div class="flex w-full max-w-4xl h-auto sm:h-[70vh] rounded-lg overflow-hidden shadow-lg cyber-card">
+        
+        {% comment %} Left Register Section {% endcomment %}
+        <div class="hidden sm:block sm:w-1/2 text-center bg-gradient-to-tr from-indigo-600 to-purple-800 text-white flex-col justify-center items-center p-8">
+          <h1 class="text-4xl font-bold mb-4 neon-text">Register</h1>
+          <p class="text-lg text-gray-200">Join the future of communication.</p>
         </div>
+      
+        {% comment %} Right Section Register Form {% endcomment %}
+      <div class="w-full sm:w-1/2 bg-gray-800 text-white flex flex-col justify-center items-center p-8">
+        <form action="{% url 'register' %}" method="post" class="w-full">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
 
-        {% comment %} email {% endcomment %}
-        <div>
-          <input
+          <!-- Username -->
+          <div class="mb-4">
+            <label class="block text-gray-300 mb-2">Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              id="username"
+              class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+              value="{{ form.username.value|default:'' }}"
+            />
+            <p class="text-sm text-red-500 mt-1">{{ form.username.errors }}</p>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-4">
+            <label class="block text-gray-300 mb-2">Email</label>
+            <input
               type="email"
               name="email"
-              name="email"
+              placeholder="Email"
               id="email"
-              placeholder="email"
-              class="w-full bg-gray-700 text-gray-200 p-3 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
+              class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
               value="{{ form.email.value }}"
             />
-           <p class="text-sm text-red-400 mt-1">{{ form.email.errors }}</p>
-        </div>
+            <p class="text-sm text-red-500 mt-1">{{ form.email.errors }}</p>
+          </div>
 
-        {% comment %} password1 {% endcomment %}
-        <div>
-          <input
+          <!-- Password 1 -->
+          <div class="mb-4">
+            <label class="block text-gray-300 mb-2">Password</label>
+            <input
               type="password"
               name="password1"
-              id="password1"
               placeholder="Enter password"
-              class="w-full bg-gray-700 text-gray-200 p-3 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
+              id="password1"
+              class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
             />
-            <p class="text-sm text-red-400 mt-1">{{ form.password1.errors }}</p>
-        </div>
+            <p class="text-sm text-red-500 mt-1">{{ form.password1.errors }}</p>
+          </div>
 
-        {% comment %} password2 {% endcomment %}
-        <input
+          <!-- Password 2 -->
+          <div class="mb-4">
+            <label class="block text-gray-300 mb-2">Confirm Password</label>
+            <input
               type="password"
               name="password2"
+              placeholder="Confirm password"
               id="password2"
-              placeholder="confirm password"
-              class="w-full bg-gray-700 text-gray-200 p-3 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
+              class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
             />
-            <p class="text-sm text-red-400 mt-1">{{form.password2.errors}}</p>
-        <div>
+            <p class="text-sm text-red-500 mt-1">{{ form.password2.errors }}</p>
+          </div>
 
-          {% comment %} Submit {% endcomment %}
-          <button class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-md font-semibold transition duration-200" type="submit">
+          <!-- Submit Button -->
+          <button class="w-full neon-button py-2 rounded-lg hover-effect" type="submit">
             Register
           </button>
-        </div>
-      </form>
-      <p class="mt-4 text-center text-sm">
-        Already have an account?
-        <a href="{% url "login" %}" class="text-indigo-400 hover:underline">Login</a>
-      </p>
+        </form>
+        <p class="text-gray-400 mt-4 text-center">
+          Already have an account?
+          <a href="{% url 'login' %}" class="text-cyan-400 hover:underline">Login</a>
+        </p>
+      </div>
+
+      {% comment %} Main wrap end {% endcomment %}
     </div>
-    
-    
+   
     
   </body>
 </html>

@@ -53,14 +53,17 @@ def logout_view(request):
 @login_required
 def room_list(request):
     # rooms = Room.objects.all()
+    users = User.objects.all()
+    current_user = request.user
+    recommended_users = users.exclude(id=current_user.id)
     rooms = Room.objects.annotate(
         unread_count=Count(
             'messages',
             filter=Q(messages__is_read=False, messages__user=request.user )
         )
-    )
+    )   
     
-    return render(request, 'chat/room_list.html', {'rooms' : rooms})
+    return render(request, 'chat/room_list.html', {'rooms' : rooms, 'users': users, 'recommended_users': recommended_users})
 
 @login_required
 def room(request, room_name):
@@ -72,9 +75,17 @@ def room(request, room_name):
     except Room.DoesNotExist:
         messages.error(request, "The Room you tried to access does not exists")
         return redirect('room_list')
+    
+    if room.is_private:
+        other_user = room.active_users.exclude(id=request.user.id).first()
+        display_picture = other_user.profile.profile_picture.url if other_user and hasattr(other_user, 'profile') else '/images/default-avatar.png'
+    else:
+        display_picture = '/images/group-icon.jpg'
+    
+    users = User.objects.all().exclude(id=request.user.id)
     rooms = Room.objects.all()
     Notification.objects.filter(user=request.user, room=room, is_read=False).update(is_read=True)
-    return render(request, 'chat/room.html', {'room_name': room_name, 'rooms': rooms, 'username' : request.user.username, 'messages':messages})
+    return render(request, 'chat/room.html', {'room_name': room_name, 'rooms': rooms, 'username' : request.user.username, 'messages':messages, 'users':users, 'display_picture':display_picture})
 
 @login_required
 def create_room(request):
