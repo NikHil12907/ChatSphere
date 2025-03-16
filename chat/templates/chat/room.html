@@ -1,4 +1,5 @@
-{% load static %} {% load static tailwind_tags %}
+{% load static %}
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -43,203 +44,6 @@
   </head>
   <body class="bg-gray-900 text-gray-100 w-full h-screen overflow-hidden">
     <div class="flex h-screen">
-<<<<<<< HEAD
-      <aside style="background-color:#36404a; width:5%" class="flex flex-col items-center justify-center space-y-8">
-            <ul class="space-y-6">
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('profile')"><i class="fa-regular fa-user" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('Indivdual_Chat')"><i class="fa-regular fa-comments" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('settings')"><i class="fa-solid fa-sliders" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('rooms')"><i class="fa-solid fa-users-line" aria-hidden="true"></i></li>
-              <li class="p-6 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center" onclick="showSection('log-out')"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></li>
-            </ul>
-      </aside>
-
-      {% comment %} Middle Section {% endcomment %}
-      <section id="dynamic-section" style="background-color:#303942" class="w-1/4 bg-gray-600 text-white sm:block overflow-y-auto shadow-lg h-full">
-        {% comment %} Profile Section {% endcomment %}
-<div id="profile" class="p-6 hidden">
-  <h1 class="text-2xl font-semibold text-center mb-4 text-white">Profile</h1>
-
-  {% comment %} Profile Picture {% endcomment %}
-  <div class="flex justify-center items-center">
-    <div class="relative w-32 h-32">
-      <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" 
-           alt="Profile Picture" 
-           class="w-full h-full rounded-full border-4 border-indigo-500 shadow-lg">
-    </div>
-  </div>
-
-  {% comment %} User Info {% endcomment %}
-  <div class="text-center mt-4">
-    <h1 class="text-xl font-semibold text-gray-200">{{ user.username }}</h1>
-    <p class="text-gray-400 text-sm">{{ user.profile.bio|default:"No Bio Available" }}</p>
-  </div>
-
-  {% comment %} Additional Details {% endcomment %}
-  <div class="mt-4 bg-gray-800 p-4 rounded-lg shadow-lg text-center">
-    <p class="text-gray-300 text-sm"><span class="font-semibold text-gray-100">Date of Birth:</span> 
-      {{ user.profile.dob|date:"F j, Y"|default:"Not Provided" }}
-    </p>
-  </div>
-
-  {% comment %} Action Buttons {% endcomment %}
-  <div class="mt-6 flex justify-center space-x-4">
-    <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md transition">
-      Edit Profile
-    </button>
-    <button class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg shadow-md transition">
-      Log Out
-    </button>
-  </div>
-</div>
-
-{% comment %} Settings Section {% endcomment %}
-<div id="settings" class="p-6 hidden">
-  <h1 class="text-2xl font-semibold text-center mb-4 text-white">Settings</h1>
-
-  <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-    {% comment %} Theme Toggle {% endcomment %}
-    <div class="flex justify-between items-center mb-4">
-      <span class="text-gray-300 text-lg">Dark Mode</span>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" class="sr-only peer">
-        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 
-                    peer-focus:ring-blue-500 dark:peer-focus:ring-blue-800 
-                    rounded-full peer peer-checked:after:translate-x-full 
-                    peer-checked:after:border-white after:content-[''] after:absolute 
-                    after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 
-                    after:border after:rounded-full after:h-5 after:w-5 
-                    after:transition-all peer-checked:bg-blue-600"></div>
-      </label>
-    </div>
-
-    {% comment %} Notification Settings {% endcomment %}
-    <div class="flex justify-between items-center mb-4">
-      <span class="text-gray-300 text-lg">Enable Notifications</span>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" class="sr-only peer">
-        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 
-                    peer-focus:ring-blue-500 dark:peer-focus:ring-blue-800 
-                    rounded-full peer peer-checked:after:translate-x-full 
-                    peer-checked:after:border-white after:content-[''] after:absolute 
-                    after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 
-                    after:border after:rounded-full after:h-5 after:w-5 
-                    after:transition-all peer-checked:bg-blue-600"></div> 
-      </label>
-    </div>
-
-    {% comment %} Change Password Button {% endcomment %}
-    <div class="mt-6">
-      <button class="w-full bg-blue-600 hover:bg-blue-500 text-white 
-                     px-4 py-2 rounded-lg shadow-md transition">
-        Change Password
-      </button>
-    </div>
-  </div>
-</div>
-
-{% comment %} Individual Chat Section {% endcomment %}
-<div id="Indivdual_Chat" class="p-6 hidden">
-  <h1 class="text-2xl font-semibold text-center text-white mb-6">Chats</h1>
-  
-  <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-    <ul class="space-y-3">
-      {% for room in rooms %}
-        <li>
-          <a href="{% url 'room' room.name %}" 
-             class="flex items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition shadow-md">
-            
-            <!-- Profile Picture -->
-            <img src="{{ room.profile_picture.url|default:'static/images/default-avatar.png' }}" 
-                 alt="Profile Picture" 
-                 class="w-10 h-10 rounded-full object-cover border-2 border-gray-500 shadow-sm">
-            
-            <!-- Name & Details -->
-            <div class="ml-4 flex-1">
-              <span class="text-white font-medium block">{{ room.name }}</span>
-              <span class="text-xs text-gray-400">Last message...</span>
-            </div>
-            
-            <!-- Unread Message Count -->
-            {% if room.unread_count %}
-              <span class="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
-                {{ room.unread_count }}
-              </span>
-            {% endif %}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
-
-
-        <div id="log-out" class="p-4 hidden ">
-          <h1 class="text-xl font-semibold">Log-out</h1>
-          <p class="mt-4">Log-out</p>
-        </div>
-
-       {% comment %} Available Groups Section {% endcomment %}
-<div id="rooms" class="p-6 hidden">
-  <h1 class="text-2xl font-semibold text-center text-white mb-4">Available Groups</h1>
-  
-  <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-    {% if rooms %}
-      <ul class="space-y-3">
-        {% for room in rooms %}
-          <li>
-            <a href="{% url 'room' room.name %}" 
-               class="block p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition 
-                      flex justify-between items-center shadow-md">
-              <span class="text-white font-medium">{{ room.name }}</span>
-              {% if room.unread_count %}
-                <span class="bg-red-500 text-white text-xs font-semibold px-2 py-1 
-                            rounded-full shadow-md">
-                  {{ room.unread_count }}
-                </span>
-              {% endif %}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="text-gray-400 text-center">No available groups</p>
-    {% endif %}
-  </div>
-</div>
-
-      </section>
-      {% comment %} Middle Section end {% endcomment %}
-      {% comment %} main chat section starts {% endcomment %}
-        <main class="flex-1 flex flex-col">
-          <header class="p-4 text-white " style="background-color:#252e35">
-            <h2 class="text-lg font-medium">{{ room_name }}</h2>
-          </header>
-  
-          <div id="chat-log" class="flex-1 overflow-y-auto p-4" style="background-color:#252e35">
-            {% for message in messages %}
-              <div class="my-2 {% if message.user.username == username %}ml-auto text-right {% else %}mr-auto text-left{% endif %}">
-                <div class="text-sm font-semibold text-white mb-1">{{ message.user.username  }}</div>
-                <div style="background-color:#746de6 " class="p-3 text-white  max-w-ws inline-block rounded-lg break-words shadow-lg">{{ message.content }}</div>
-                <div class="text-xs text-gray-300 mt-1">{{ message.timeStamp }}</div>
-              </div>
-            {% endfor %}
-          </div>
-  
-          <footer class="p-4" style="background-color:#252e35">
-            <div class="flex items-center space-x-2 mb-4">
-              <input
-                type="text"
-                id="chat-message-input"
-                class="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" style="color:rgb(255, 255, 255)" placeholder="Type your message..."
-              /><br />
-              <input
-                type="button"
-                value="Send"
-                class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md focus:outline-none transition"
-                id="chat-message-submit"
-              /><br />
-=======
       <!-- Sidebar -->
       <aside class="bg-gray-800 w-16 flex flex-col items-center justify-center space-y-8 shadow-lg glow-border">
         <ul class="space-y-6">
@@ -268,7 +72,6 @@
               <div class="text-sm font-semibold text-gray-300 mb-1">{{ message.user.username }}</div>
               <div class="p-3 bg-indigo-600 text-white max-w-xs inline-block rounded-lg shadow-lg break-words chat-message">{{ message.content }}</div>
               <div class="text-xs text-gray-400 mt-1">{{ message.timeStamp }}</div>
->>>>>>> main
             </div>
           {% endfor %}
         </div>
@@ -401,7 +204,7 @@
         });
       };
 
-      // WebSocket and chat functionality 
+      // WebSocket and chat functionality
       const roomName = JSON.parse(document.getElementById("room-name").textContent);
       const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + roomName + "/");
 
@@ -424,9 +227,9 @@
           timeStampDiv.classList.add("text-xs", "text-gray-400", "mt-1");
 
           if (data.username === currentUsername) {
-            msgContainer.classList.add("text-right");
+            msgContainer.classList.add("ml-auto", "text-right");
           } else {
-            msgContainer.classList.add("text-left");
+            msgContainer.classList.add("mr-auto", "text-left");
           }
 
           msgContainer.appendChild(usernameDiv);
@@ -471,103 +274,6 @@
           messageInputDom.value = "";
         }
       };
-<<<<<<< HEAD
-    };
- 
-    function showSection(sectionID){
-      const sections = ["profile", "settings","Indivdual_Chat", "log-out", "rooms"]
-      sections.forEach((id) => {
-        document.getElementById(id).classList.add("hidden");
-        });
-        document.getElementById(sectionID).classList.remove("hidden");
-    }
-    
-  </script>
-=======
-
-      document.querySelector('#file-submit').onclick = function (e) {
-        const fileInput = document.querySelector('#file-input');
-        const files = fileInput.files;
-        const username = "{{ username }}";
-
-        if (files.length > 0) {
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-
-            (function (currentFile) {
-              const reader = new FileReader();
-
-              reader.onload = function (event) {
-                const base64File = event.target.result;
-
-                chatSocket.send(
-                  JSON.stringify({
-                    command: 'new_file',
-                    file: base64File,
-                    filename: currentFile.name,
-                    filetype: currentFile.type,
-                    from: username,
-                  })
-                );
-              };
-
-              reader.readAsDataURL(currentFile);
-            })(file);
-          }
-        }
-        fileInput.value = '';
-      };
-
-      function openChat(username) {
-        document.getElementById("chat-title").textContent = username;
-        document.getElementById("chat-log").innerHTML = "";
-
-        if (window.CurrentChatSocket) {
-          console.log("closing old socket");
-          window.CurrentChatSocket.close();
-        }
-
-        const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + username + "/");
-
-        chatSocket.onopen = function () {
-          console.log("connected to: ", username);
-        };
-
-        chatSocket.onclose = function () {
-          console.log("disconnected to: ", username);
-        };
-
-        window.currentChatSocket = chatSocket;
-
-        chatSocket.onmessage = function (event) {
-          const data = JSON.parse(event.data);
-          console.log(data);
-
-          if (data.type === 'chat_message') {
-            const chatLog = document.getElementById("chat-log");
-            const msgContainer = document.createElement("div");
-            msgContainer.classList.add("my-2", data.username === username ? "text-right" : "text-left");
-
-            msgContainer.innerHTML = `
-              <div class="text-sm font-semibold text-gray-300 mb-1">${data.username}</div>
-              <div class="p-3 bg-indigo-600 text-white max-w-xs inline-block rounded-lg shadow-lg">${data.message}</div>
-              <div class="text-xs text-gray-400 mt-1">${data.timeStamp}</div>
-            `;
-            chatLog.appendChild(msgContainer);
-            chatLog.scrollTop = chatLog.scrollHeight;
-          }
-        };
-
-        document.getElementById("chat-message-submit").onclick = function () {
-          const messageInput = document.getElementById("chat-message-input");
-          const message = messageInput.value;
-          if (message.trim()) {
-            window.currentChatSocket.send(JSON.stringify({ message }));
-            messageInput.value = "";
-          }
-        };
-      }
     </script>
   </body>
->>>>>>> main
 </html>
