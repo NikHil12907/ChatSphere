@@ -1,0 +1,214 @@
+{% load static %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy</title>
+    <script src="https://kit.fontawesome.com/27238bd807.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% tailwind_css %}
+    <style>
+      /* Custom Glow Effect */
+      .glow-border {
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .glow-border:hover {
+        border-color: rgba(99, 102, 241, 0.6);
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.5), 0 0 30px rgba(99, 102, 241, 0.4);
+      }
+
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.5);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      /* Section Dividers */
+      .section-divider {
+        border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        margin: 1.5rem 0;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-100 w-full min-h-screen overflow-y-auto">
+    <!-- Header -->
+    <header class="p-4 bg-gray-800 shadow-lg glow-border">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-semibold text-indigo-400">Privacy Policy</h1>
+        <a href="{% url 'home' %}" class="text-indigo-400 hover:text-indigo-300 transition duration-300" aria-label="Go to Home">
+          <i class="fa-solid fa-house text-2xl"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+      <div class="bg-gray-800 p-8 rounded-lg shadow-lg glow-border fade-in">
+        <!-- Introduction -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">1. Introduction</h2>
+          <p class="text-gray-300 mb-6">
+            At ChatSphere, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your personal information when you use our services. By accessing or using our platform, you agree to the terms outlined in this policy.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Information We Collect -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">2. Information We Collect</h2>
+          <p class="text-gray-300 mb-4">
+            We collect the following types of information:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 mb-6">
+            <li><strong>Personal Information:</strong> Name, email address, phone number, and other identifiers you provide during registration.</li>
+            <li><strong>Usage Data:</strong> Information about how you interact with our platform, such as IP addresses, browser type, and pages visited.</li>
+            <li><strong>Cookies:</strong> We use cookies to enhance your experience and analyze usage patterns.</li>
+            <li><strong>Third-Party Data:</strong> Information from third-party services (e.g., social media platforms) if you link your accounts.</li>
+          </ul>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- How We Use Your Information -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">3. How We Use Your Information</h2>
+          <p class="text-gray-300 mb-4">
+            We use your information for the following purposes:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 mb-6">
+            <li>To provide, maintain, and improve our services.</li>
+            <li>To personalize your experience and deliver relevant content.</li>
+            <li>To communicate with you about updates, promotions, and support.</li>
+            <li>To analyze usage trends and optimize our platform.</li>
+            <li>To comply with legal obligations and protect our rights.</li>
+          </ul>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Sharing Your Information -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">4. Sharing Your Information</h2>
+          <p class="text-gray-300 mb-6">
+            We do not sell your personal information. However, we may share it with:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 mb-6">
+            <li><strong>Service Providers:</strong> Third-party vendors who assist us in delivering our services.</li>
+            <li><strong>Legal Authorities:</strong> When required by law or to protect our rights and safety.</li>
+            <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets.</li>
+          </ul>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Data Security -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">5. Data Security</h2>
+          <p class="text-gray-300 mb-6">
+            We implement industry-standard security measures to protect your data, including encryption, firewalls, and access controls. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Your Rights -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">6. Your Rights</h2>
+          <p class="text-gray-300 mb-6">
+            You have the right to:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 mb-6">
+            <li>Access, update, or delete your personal information.</li>
+            <li>Opt-out of marketing communications.</li>
+            <li>Request a copy of your data in a portable format.</li>
+            <li>Withdraw consent for data processing where applicable.</li>
+          </ul>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Cookies and Tracking -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">7. Cookies and Tracking</h2>
+          <p class="text-gray-300 mb-6">
+            We use cookies and similar technologies to enhance your experience. You can manage your cookie preferences through your browser settings. Disabling cookies may affect the functionality of our platform.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Third-Party Links -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">8. Third-Party Links</h2>
+          <p class="text-gray-300 mb-6">
+            Our platform may contain links to third-party websites. We are not responsible for their privacy practices. Please review their policies before providing any personal information.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Changes to This Policy -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">9. Changes to This Policy</h2>
+          <p class="text-gray-300 mb-6">
+            We may update this Privacy Policy from time to time. Any changes will be posted on this page, and we will notify you of significant updates. Your continued use of our services constitutes acceptance of the revised policy.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Contact Us -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">10. Contact Us</h2>
+          <p class="text-gray-300">
+            If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:support@Chatsphere.com" class="text-indigo-400 hover:text-indigo-300">support@Chatsphere.com</a>.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 bg-gray-800 shadow-lg glow-border mt-8">
+      <div class="container mx-auto text-center text-gray-300">
+        <p>&copy; 2025 ChatSphere. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 p-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg glow-border hidden" aria-label="Back to Top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+      // Back to Top Button
+      const backToTopButton = document.getElementById('back-to-top');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.remove('hidden');
+        } else {
+          backToTopButton.classList.add('hidden');
+        }
+      });
+
+      backToTopButton.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    </script>
+  </body>
+</html>

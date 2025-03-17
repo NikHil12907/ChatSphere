@@ -126,8 +126,8 @@
           <div class="content relative z-10">
             <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class="inline-block rounded-full ring-2 ring-cyan-400 h-14 w-14 mb-4">
             <h3 class="text-2xl text-cyan-400 mb-4">{{ user.username }}</h3>
-            <a href="#" class="text-gray-300 hover:text-cyan-400">View Profile</a>
-            <a href="{% url 'private_chat' user.username %}" class="neon-button mt-6 px-4 py-2 rounded-lg">Start Chatting</a>
+            <a href="#" class="text-gray-300 hover:text-cyan-400 flex text-center justify-center">View Profile</a>
+            <a href="{% url 'private_chat' user.username %}" class="neon-button flex text-center justify-center mt-6 px-4 py-2 rounded-lg">Start Chatting</a>
           </div>
         </div>
         {% endfor %}

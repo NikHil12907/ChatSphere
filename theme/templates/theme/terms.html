@@ -1,0 +1,172 @@
+{% load static %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service</title>
+    <script src="https://kit.fontawesome.com/27238bd807.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% tailwind_css %}
+    <style>
+      /* Custom Glow Effect */
+      .glow-border {
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .glow-border:hover {
+        border-color: rgba(99, 102, 241, 0.6);
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.5), 0 0 30px rgba(99, 102, 241, 0.4);
+      }
+
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.5);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      /* Section Dividers */
+      .section-divider {
+        border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        margin: 1.5rem 0;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-100 w-full min-h-screen overflow-y-auto">
+    <!-- Header -->
+    <header class="p-4 bg-gray-800 shadow-lg glow-border">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-semibold text-indigo-400">Terms of Service</h1>
+        <a href="{% url 'home' %}" class="text-indigo-400 hover:text-indigo-300 transition duration-300" aria-label="Go to Home">
+          <i class="fa-solid fa-house text-2xl"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+      <div class="bg-gray-800 p-8 rounded-lg shadow-lg glow-border fade-in">
+        <!-- Section 1 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">1. Acceptance of Terms</h2>
+          <p class="text-gray-300 mb-6">
+            By accessing or using our services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Section 2 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">2. User Responsibilities</h2>
+          <p class="text-gray-300 mb-6">
+            You are responsible for maintaining the confidentiality of your account and password. You agree to notify us immediately of any unauthorized access to or use of your account.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Section 3 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">3. Prohibited Activities</h2>
+          <p class="text-gray-300 mb-6">
+            You may not use our services for any illegal or unauthorized purpose. You agree to comply with all applicable laws, rules, and regulations in your use of our services.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Section 4 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">4. Intellectual Property</h2>
+          <p class="text-gray-300 mb-6">
+            All content and materials available on our platform, including but not limited to text, graphics, logos, and software, are the property of our company and are protected by intellectual property laws.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Section 5 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">5. Limitation of Liability</h2>
+          <p class="text-gray-300 mb-6">
+            We are not liable for any indirect, incidental, or consequential damages arising out of your use of our services. Our total liability to you for any claims arising out of or related to these terms is limited to the amount you paid for our services.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Section 6 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">6. Changes to Terms</h2>
+          <p class="text-gray-300 mb-6">
+            We reserve the right to modify these Terms of Service at any time. Your continued use of our services after any changes constitutes your acceptance of the new terms.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Section 7 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">7. Governing Law</h2>
+          <p class="text-gray-300 mb-6">
+            These Terms of Service are governed by and construed in accordance with the laws of the jurisdiction in which our company is registered.
+          </p>
+          <div class="section-divider"></div>
+        </section>
+
+        <!-- Section 8 -->
+        <section>
+          <h2 class="text-xl font-semibold text-indigo-400 mb-4">8. Contact Us</h2>
+          <p class="text-gray-300">
+            If you have any questions about these Terms of Service, please contact us at <a href="mailto:support@Chatsphere.com" class="text-indigo-400 hover:text-indigo-300">support@Chatsphere.com</a>.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 bg-gray-800 shadow-lg glow-border mt-8">
+      <div class="container mx-auto text-center text-gray-300">
+        <p>&copy; 2025 ChatSphere. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 p-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg glow-border hidden" aria-label="Back to Top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+      // Back to Top Button
+      const backToTopButton = document.getElementById('back-to-top');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.remove('hidden');
+        } else {
+          backToTopButton.classList.add('hidden');
+        }
+      });
+
+      backToTopButton.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    </script>
+  </body>
+</html>
