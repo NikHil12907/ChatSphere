@@ -1,0 +1,33 @@
+{% extends "theme/base.html" %}
+{% block style %}
+{% endblock %}
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>First Name</label>
+        {{ user.username }}
+        {{user_form.username}}
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        {{ user.email }}
+        {{user_form.email}}
+    </div>
+    <div class="form-group">
+        <label>BIO</label>
+        {{ user.bio }}
+        {{profile_form.bio}}
+    </div>
+    <div class="form-group">
+        <label>dob</label>
+        {{ user.dob }}
+        {{profile_form.dob}}
+    </div>
+
+    <button type="submit" >submit</button>
+
+</form>
+
+{% endblock content %}
