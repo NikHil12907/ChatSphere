@@ -1,13 +1,7 @@
-{% load static tailwind_tags %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatSphere - Modern Chat App</title>
-    {% tailwind_css %}
-    <style>
-        /* Cyberpunk Glow Animation */
+{% extends "theme/base.html" %}
+{% block style %}
+
+/* Cyberpunk Glow Animation */
         @keyframes neonGlow {
             0%, 100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
             50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff; }
@@ -63,91 +57,68 @@
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.6);
         }
-    </style>
-</head>
-<body class="bg-gray-900 text-white font-sans">
 
-    <!-- Navbar -->
-    <nav class="bg-gray-950 shadow-lg py-4">
-        <div class="container mx-auto flex justify-between items-center px-6">
-            <a href="#" class="text-2xl font-bold neon-text">ChatSphere</a>
-            <div class="space-x-4">
-                <a href="{% url 'home' %}" class="hover:text-cyan-400 transition">Home</a>
-                <a href="{% url 'Features' %}" class="hover:text-cyan-400 transition">Features</a>
-                <a href="{% url 'login' %}" class="hover:text-cyan-400 transition">Login</a>
-                <a href="{% url 'register' %}" class="neon-button px-6 py-2 rounded-lg">Sign Up</a>
+{% endblock %}
+{% block content %}
+<!-- Hero Section -->
+<section class="py-24 holographic text-center">
+    <div class="container mx-auto px-6">
+        <h1 class="text-4xl md:text-6xl font-bold neon-text">Welcome to ChatSphere</h1>
+        <p class="text-xl mt-8 max-w-2xl mx-auto text-gray-300">Experience the future of communication with real-time messaging, AI-powered features, and unparalleled security.</p>
+        <div class="mt-12">
+            <a href="{% url 'login' %}" class="neon-button px-8 py-3 rounded-lg text-lg font-semibold hover-effect">Get Started</a>
+            <a href="#" class="ml-6 px-8 py-3 rounded-lg text-lg font-semibold border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-gray-900 transition">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20"> <!-- Removed unnecessary margin-top -->
+    <div class="container mx-auto text-center px-6">
+        <h2 class="text-3xl md:text-4xl font-bold neon-text">Why ChatSphere?</h2>
+        <p class="text-gray-400 mt-4">Revolutionize your communication with these cutting-edge features.</p>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
+                <h3 class="text-xl md:text-2xl font-bold text-cyan-400">AI-Powered Chat</h3>
+                <p class="text-gray-300 mt-2">Smart replies, sentiment analysis, and chatbot integration for seamless conversations.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
+                <h3 class="text-xl md:text-2xl font-bold text-cyan-400">End-to-End Encryption</h3>
+                <p class="text-gray-300 mt-2">Your messages are secure and private, always.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
+                <h3 class="text-xl md:text-2xl font-bold text-cyan-400">Multi-Platform Sync</h3>
+                <p class="text-gray-300 mt-2">Access your chats from any device, anywhere.</p>
+            </div>
+            <!-- Feature 4 -->
+            <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
+                <h3 class="text-xl md:text-2xl font-bold text-cyan-400">Customizable Themes</h3>
+                <p class="text-gray-300 mt-2">Personalize your chat experience with dynamic themes.</p>
+            </div>
+            <!-- Feature 5 -->
+            <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
+                <h3 class="text-xl md:text-2xl font-bold text-cyan-400">Voice & Video Calls</h3>
+                <p class="text-gray-300 mt-2">High-quality voice and video calls with no lag.</p>
+            </div>
+            <!-- Feature 6 -->
+            <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
+                <h3 class="text-xl md:text-2xl font-bold text-cyan-400">File Sharing</h3>
+                <p class="text-gray-300 mt-2">Share files, images, and videos instantly.</p>
             </div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <section class="py-24 holographic text-center">
-        <div class="container mx-auto px-6">
-            <h1 class="text-4xl md:text-6xl font-bold neon-text">Welcome to ChatSphere</h1>
-            <p class="text-xl mt-8 max-w-2xl mx-auto text-gray-300">Experience the future of communication with real-time messaging, AI-powered features, and unparalleled security.</p>
-            <div class="mt-12">
-                <a href="{% url 'login' %}" class="neon-button px-8 py-3 rounded-lg text-lg font-semibold hover-effect">Get Started</a>
-                <a href="#" class="ml-6 px-8 py-3 rounded-lg text-lg font-semibold border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-gray-900 transition">Learn More</a>
-            </div>
-        </div>
-    </section>
+<!-- CTA Section -->
+<section class="py-24 holographic text-center">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold neon-text">Join the Future of Chatting</h2>
+        <p class="mt-4 text-lg text-gray-300">Sign up now and experience the next generation of communication.</p>
+        <a href="{% url 'register' %}" class="mt-6 inline-block neon-button px-6 md:px-8 py-3 rounded-lg text-lg font-semibold hover-effect">Sign Up Free</a>
+    </div>
+</section>
 
-    <!-- Features Section -->
-    <section class="py-20"> <!-- Removed unnecessary margin-top -->
-        <div class="container mx-auto text-center px-6">
-            <h2 class="text-3xl md:text-4xl font-bold neon-text">Why ChatSphere?</h2>
-            <p class="text-gray-400 mt-4">Revolutionize your communication with these cutting-edge features.</p>
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
-                    <h3 class="text-xl md:text-2xl font-bold text-cyan-400">AI-Powered Chat</h3>
-                    <p class="text-gray-300 mt-2">Smart replies, sentiment analysis, and chatbot integration for seamless conversations.</p>
-                </div>
-                <!-- Feature 2 -->
-                <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
-                    <h3 class="text-xl md:text-2xl font-bold text-cyan-400">End-to-End Encryption</h3>
-                    <p class="text-gray-300 mt-2">Your messages are secure and private, always.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
-                    <h3 class="text-xl md:text-2xl font-bold text-cyan-400">Multi-Platform Sync</h3>
-                    <p class="text-gray-300 mt-2">Access your chats from any device, anywhere.</p>
-                </div>
-                <!-- Feature 4 -->
-                <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
-                    <h3 class="text-xl md:text-2xl font-bold text-cyan-400">Customizable Themes</h3>
-                    <p class="text-gray-300 mt-2">Personalize your chat experience with dynamic themes.</p>
-                </div>
-                <!-- Feature 5 -->
-                <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
-                    <h3 class="text-xl md:text-2xl font-bold text-cyan-400">Voice & Video Calls</h3>
-                    <p class="text-gray-300 mt-2">High-quality voice and video calls with no lag.</p>
-                </div>
-                <!-- Feature 6 -->
-                <div class="cyber-card p-6 md:p-8 rounded-lg hover-effect">
-                    <h3 class="text-xl md:text-2xl font-bold text-cyan-400">File Sharing</h3>
-                    <p class="text-gray-300 mt-2">Share files, images, and videos instantly.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-24 holographic text-center">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold neon-text">Join the Future of Chatting</h2>
-            <p class="mt-4 text-lg text-gray-300">Sign up now and experience the next generation of communication.</p>
-            <a href="{% url 'register' %}" class="mt-6 inline-block neon-button px-6 md:px-8 py-3 rounded-lg text-lg font-semibold hover-effect">Sign Up Free</a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-950 text-white py-8 text-center">
-        <p>&copy; 2025 ChatSphere. All rights reserved.</p>
-        <div class="mt-4 space-x-4">
-            <a href="{% url "policies" %}" class="text-cyan-400 hover:text-cyan-300">Privacy Policy</a>
-            <a href="{% url "terms" %}" class="text-cyan-400 hover:text-cyan-300">Terms of Service</a>
-        </div>
-    </footer>
-</body>
-</html>
+{% endblock  %}

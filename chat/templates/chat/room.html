@@ -1,5 +1,5 @@
-{% load static tailwind_tags %}
-<!DOCTYPE html>
+{% load static %}
+{% load static tailwind_tags %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,6 +13,7 @@
       .glow-border {
         border: 1px solid rgba(99, 102, 241, 0.3);
         box-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
       }
 
       .glow-border:hover {
@@ -24,6 +25,7 @@
         background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(79, 70, 229, 0.9));
         border: 1px solid rgba(99, 102, 241, 0.5);
         box-shadow: 0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
       }
 
       .glow-button:hover {
@@ -34,25 +36,97 @@
       .chat-message {
         background: rgba(99, 102, 241, 0.1);
         border: 1px solid rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
       }
 
       .chat-message:hover {
         border-color: rgba(99, 102, 241, 0.5);
       }
+
+      /* Scrollbar Styling */
+      #chat-log::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      #chat-log::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.5);
+        border-radius: 4px;
+      }
+
+      #chat-log::-webkit-scrollbar-track {
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      /* Mobile Dropdown Menu */
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        background: rgba(55, 65, 81, 0.95);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .dropdown-menu.active {
+        display: block;
+      }
+
+      .dropdown-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .dropdown-menu li {
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .dropdown-menu li:hover {
+        background: rgba(99, 102, 241, 0.2);
+      }
+
+      .dropdown-menu li i {
+        margin-right: 8px;
+      }
+
+      /* Hide Sidebar on Mobile */
+      @media (max-width: 768px) {
+        aside {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body class="bg-gray-900 text-gray-100 w-full h-screen overflow-hidden">
     <div class="flex h-screen">
-      <!-- Sidebar -->
-      <aside class="bg-gray-800 w-16 flex flex-col items-center justify-center space-y-8 shadow-lg glow-border">
+      <!-- Sidebar (Hidden on Mobile) -->
+      <aside class="bg-gray-800 w-20 flex flex-col items-center justify-center space-y-8 shadow-lg glow-border md:flex">
         <ul class="space-y-6">
-          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('profile')">
+          <!-- Home Button -->
+          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="window.location.href='{% url 'home' %}'" aria-label="Home">
+            <i class="fa-solid fa-house text-indigo-400"></i>
+          </li>
+          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('profile')" aria-label="Profile">
             <i class="fa-regular fa-user text-indigo-400"></i>
           </li>
-          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('rooms')">
+          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('rooms')" aria-label="Rooms">
             <i class="fa-brands fa-rocketchat text-indigo-400"></i>
           </li>
-          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('settings')">
+          <li class="p-4 hover:bg-gray-700 text-2xl rounded-lg transition flex justify-center items-center cursor-pointer glow-border" onclick="showPopup('settings')" aria-label="Settings">
             <i class="fa-solid fa-gear text-indigo-400"></i>
           </li>
         </ul>
@@ -60,14 +134,65 @@
 
       <!-- Main Chat Section -->
       <main class="flex-1 flex flex-col">
-        <header class="p-4 bg-gray-800 shadow-lg glow-border">
+        <!-- Header with Search Icon -->
+        <header class="p-4 bg-gray-800 shadow-lg glow-border flex justify-between items-center">
           <h2 class="text-lg font-medium text-indigo-400" id="chat-title">{{ room_name }}</h2>
+          <!-- Search Icon and Input -->
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden md:block">
+              <i id="search-icon" class="fa-solid fa-magnifying-glass text-indigo-400 cursor-pointer hover:text-indigo-300 transition duration-300 ease-in-out" aria-label="Search messages"></i>
+              <input
+                type="text"
+                id="search-messages-input"
+                class="hidden absolute top-10 right-0 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64"
+                placeholder="Search messages..."
+                aria-label="Search messages"
+              />
+            </div>
+            <!-- Hamburger Menu (Visible on Mobile) -->
+            <div class="md:hidden">
+              <button id="hamburger-menu" class="text-indigo-400 focus:outline-none" aria-label="Open menu">
+                <i class="fa-solid fa-bars text-2xl"></i>
+              </button>
+            </div>
+          </div>
         </header>
+
+        <!-- Dropdown Menu (Mobile Only) -->
+        <div id="dropdown-menu" class="dropdown-menu">
+          <ul>
+            <li onclick="window.location.href='{% url 'home' %}'" class="text-gray-100">
+              <i class="fa-solid fa-house text-indigo-400"></i> Home
+            </li>
+            <li onclick="showPopup('profile')" class="text-gray-100">
+              <i class="fa-regular fa-user text-indigo-400"></i> Profile
+            </li>
+            <li onclick="showPopup('rooms')" class="text-gray-100">
+              <i class="fa-brands fa-rocketchat text-indigo-400"></i> Rooms
+            </li>
+            <li onclick="showPopup('settings')" class="text-gray-100">
+              <i class="fa-solid fa-gear text-indigo-400"></i> Settings
+            </li>
+            <!-- Search Option for Mobile -->
+            <li onclick="document.getElementById('search-messages-input-mobile').classList.toggle('hidden')" class="text-gray-100">
+              <i class="fa-solid fa-magnifying-glass text-indigo-400"></i> Search Messages
+            </li>
+            <li class="p-3">
+              <input
+                type="text"
+                id="search-messages-input-mobile"
+                class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Search messages..."
+                aria-label="Search messages"
+              />
+            </li>
+          </ul>
+        </div>
 
         <!-- Chat Log -->
         <div id="chat-log" class="flex-1 overflow-y-auto p-4 bg-gray-700">
           {% for message in messages %}
-            <div class="my-2 {% if message.user.username == username %}ml-auto text-right{% else %}mr-auto text-left{% endif %}">
+            <div class="my-2 fade-in {% if message.user.username == username %}ml-auto text-right{% else %}mr-auto text-left{% endif %}">
               <div class="text-sm font-semibold text-gray-300 mb-1">{{ message.user.username }}</div>
               <div class="p-3 bg-indigo-600 text-white max-w-xs inline-block rounded-lg shadow-lg break-words chat-message">{{ message.content }}</div>
               <div class="text-xs text-gray-400 mt-1">{{ message.timeStamp }}</div>
@@ -83,14 +208,16 @@
               id="chat-message-input"
               class="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Type your message..."
+              aria-label="Type your message"
             />
-            <input type="file" id="file-input" class="hidden" multiple>
-            <label for="file-input" class="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer glow-border">
+            <input type="file" id="file-input" class="hidden" multiple aria-label="Upload file">
+            <label for="file-input" class="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer glow-border" aria-label="Attach file">
               <i class="fa-solid fa-paperclip text-gray-300"></i>
             </label>
             <button
               id="chat-message-submit"
               class="glow-button text-white px-4 py-2 rounded-lg shadow-md focus:outline-none transition"
+              aria-label="Send message"
             >
               Send
             </button>
@@ -99,87 +226,200 @@
       </main>
     </div>
 
-    <!-- Popup Modals -->
     <!-- Profile Popup -->
-    <div id="profile-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
-      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
-        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Profile</h1>
-        <div class="flex justify-center">
-          <img src="{{ user.profile.profile_picture.url|default:'static/images/default-avatar.png' }}" alt="Profile Picture" class="w-24 h-24 rounded-full border-2 border-indigo-400">
+  <div id="profile-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+    <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
+      <h1 class="text-xl font-semibold mb-4 text-indigo-400">Profile</h1>
+      <div class="flex justify-center">
+        <!-- Avatar -->
+        <div class="relative w-24 h-24 rounded-full border-2 border-indigo-400 overflow-hidden flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
+          {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="w-full h-full object-cover">
+          {% else %}
+            <span class="text-3xl font-bold text-white">
+              {{ user.username|first|upper }}
+            </span>
+          {% endif %}
         </div>
-        <div class="text-center mt-4">
-          <h1 class="text-lg font-medium text-gray-100">{{ user.username }}</h1>
-          <p class="text-sm text-gray-300">{{ user.profile.bio|default:"No Bio Available" }}</p>
-        </div>
-        <div class="text-center mt-2">
-          <p class="text-sm text-gray-300">{{ user.profile.dob|date:"F j, Y"|default:"Not Provided" }}</p>
-        </div>
-        <button onclick="hidePopup('profile-popup')" class="mt-4 w-full p-2 glow-button rounded-lg">Close</button>
       </div>
+      <div class="text-center mt-4">
+        <h1 class="text-lg font-medium text-gray-100">{{ user.username }}</h1>
+        <p class="text-sm text-gray-300">{{ user.profile.bio|default:"No Bio Available" }}</p>
+      </div>
+      <div class="text-center mt-2">
+        <p class="text-sm text-gray-300">{{ user.profile.dob|date:"F j, Y"|default:"Not Provided" }}</p>
+      </div>
+      <!-- Edit Profile Button -->
+      <button
+        onclick="showPopup('edit-profile')"
+        class="mt-6 w-full p-2 glow-button rounded-lg text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
+        aria-label="Edit profile"
+      >
+        Edit Profile
+      </button>
+      <!-- Close Button -->
+      <button
+        onclick="hidePopup('profile-popup')"
+        class="mt-4 w-full p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-300 ease-in-out"
+        aria-label="Close profile"
+      >
+        Close
+      </button>
     </div>
+  </div>
 
-    <!-- Rooms Popup -->
-    <div id="rooms-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
-      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
-        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Rooms</h1>
-        <ul>
-          {% for room in rooms %}
-            <li class="p-2 hover:bg-gray-700 rounded-lg cursor-pointer glow-border">
-              <a href={% url "room" room.name %} class="block">{{ room.name }}</a>
+  <!-- Rooms Popup -->
+  <div id="rooms-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+    <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
+      <h1 class="text-xl font-semibold mb-4 text-indigo-400">Rooms</h1>
+      <div class="mb-4">
+        <input
+          type="text"
+          id="room-search"
+          class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Search rooms..."
+          aria-label="Search rooms"
+        />
+      </div>
+      <div class="max-h-96 overflow-y-auto pr-2">
+        <ul id="room-list" class="space-y-3">
+          {% if rooms %}
+            {% for room in rooms %}
+              <li class="p-3 hover:bg-gray-700 rounded-lg cursor-pointer glow-border transition duration-300 ease-in-out">
+                <a href="{% url 'room' room.name %}" class="block text-gray-100 hover:text-indigo-400 text-lg font-medium transition duration-300 ease-in-out">
+                  <i class="fa-solid fa-comments mr-2 text-indigo-400"></i>
+                  {{ room.name }}
+                </a>
+              </li>
+            {% endfor %}
+          {% else %}
+            <li class="p-3 text-center text-gray-400">
+              <i class="fa-solid fa-comments-slash text-2xl mb-2"></i>
+              <p>No rooms available. Create one!</p>
             </li>
-          {% endfor %}
+          {% endif %}
         </ul>
-        <button onclick="hidePopup('rooms-popup')" class="mt-4 w-full p-2 glow-button rounded-lg">Close</button>
       </div>
+      <button onclick="hidePopup('rooms-popup')" class="mt-6 w-full p-2 glow-button rounded-lg text-white hover:bg-indigo-700 transition duration-300 ease-in-out">
+        Close
+      </button>
     </div>
+  </div>
 
-    <!-- Settings Popup -->
-    <div id="settings-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
-      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
-        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Settings</h1>
-        <div class="space-y-4">
-          <!-- Theme Selection -->
-          <div>
-            <h2 class="text-lg font-medium text-gray-100">Theme</h2>
-            <select class="w-full p-2 bg-gray-700 text-gray-100 rounded-lg focus:outline-none">
-              <option value="dark">Dark</option>
-              <option value="light">Light</option>
-              <option value="system">System Default</option>
-            </select>
-          </div>
-
-          <!-- Notification Preferences -->
-          <div>
-            <h2 class="text-lg font-medium text-gray-100">Notifications</h2>
-            <div class="flex items-center space-x-4">
-              <label class="flex items-center">
-                <input type="checkbox" class="form-checkbox h-5 w-5 text-indigo-400">
-                <span class="ml-2 text-gray-300">Enable Notifications</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Logout Button -->
-          <div>
-            <button onclick="showPopup('log-out')" class="w-full p-2 bg-red-600 hover:bg-red-500 text-white rounded-lg">Log Out</button>
+  <!-- Settings Popup -->
+  <div id="settings-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+    <div class="bg-gray-800 p-6 rounded-lg w-full max-w-2xl transform transition-all duration-300 ease-in-out glow-border">
+      <h1 class="text-xl font-semibold mb-6 text-indigo-400">Settings</h1>
+      <div class="space-y-6">
+        <div>
+          <h2 class="text-lg font-medium text-gray-100 mb-2">Theme</h2>
+          <select
+            class="w-full p-2 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+            aria-label="Select theme"
+          >
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="system">System Default</option>
+          </select>
+        </div>
+        <div>
+          <h2 class="text-lg font-medium text-gray-100 mb-2">Notifications</h2>
+          <div class="flex items-center space-x-4">
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="form-checkbox h-5 w-5 text-indigo-400 rounded focus:ring-indigo-500 transition duration-300 ease-in-out"
+                aria-label="Enable notifications"
+              />
+              <span class="ml-2 text-gray-300">Enable Notifications</span>
+            </label>
           </div>
         </div>
-        <button onclick="hidePopup('settings-popup')" class="mt-4 w-full p-2 glow-button rounded-lg">Close</button>
+        <div>
+          <button
+            onclick="showPopup('log-out')"
+            class="w-full p-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition duration-300 ease-in-out"
+            aria-label="Log out"
+          >
+            Log Out
+          </button>
+        </div>
       </div>
+      <button
+        onclick="hidePopup('settings-popup')"
+        class="mt-6 w-full p-2 glow-button rounded-lg text-white hover:bg-indigo-700 transition duration-300 ease-in-out"
+        aria-label="Close settings"
+      >
+        Close
+      </button>
     </div>
+  </div>
 
-    <!-- Log-out Popup -->
-    <div id="log-out-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
-      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md transform transition-all duration-300 ease-in-out glow-border">
-        <h1 class="text-xl font-semibold mb-4 text-indigo-400">Log-out</h1>
-        <p class="mb-4 text-gray-300">Are you sure you want to log out?</p>
-        <button class="w-full p-2 bg-red-600 hover:bg-red-500 text-white rounded-lg">Log Out</button>
-        <button onclick="hidePopup('log-out-popup')" class="mt-2 w-full p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg">Cancel</button>
-      </div>
+  <!-- Log-out Popup -->
+  <div id="log-out-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+    <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md transform transition-all duration-300 ease-in-out glow-border">
+      <h1 class="text-xl font-semibold mb-4 text-indigo-400">Log-out</h1>
+      <p class="mb-4 text-gray-300">Are you sure you want to log out?</p>
+      <button class="w-full p-2 bg-red-600 hover:bg-red-500 text-white rounded-lg">Log Out</button>
+      <button onclick="hidePopup('log-out-popup')" class="mt-2 w-full p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg">Cancel</button>
     </div>
+  </div>
 
     {{ room_name|json_script:"room-name" }}
+
     <script>
+      // Scroll chat log to bottom on page load
+      window.addEventListener("load", () => {
+        const chatLog = document.getElementById("chat-log");
+        chatLog.scrollTop = chatLog.scrollHeight;
+      });
+
+      // Toggle Search Input
+      const searchIcon = document.getElementById("search-icon");
+      const searchInput = document.getElementById("search-messages-input");
+
+      searchIcon.addEventListener("click", () => {
+        searchInput.classList.toggle("hidden");
+      });
+
+      // Search Messages Functionality
+      const searchMessages = (inputId) => {
+        const searchInput = document.getElementById(inputId);
+        searchInput.addEventListener("input", (e) => {
+          const searchTerm = e.target.value.toLowerCase();
+          const chatMessages = document.querySelectorAll("#chat-log .chat-message");
+
+          chatMessages.forEach((message) => {
+            const messageText = message.textContent.toLowerCase();
+            if (messageText.includes(searchTerm)) {
+              message.parentElement.style.display = "block";
+            } else {
+              message.parentElement.style.display = "none";
+            }
+          });
+        });
+      };
+
+      // Initialize search for desktop and mobile
+      searchMessages("search-messages-input");
+      searchMessages("search-messages-input-mobile");
+
+      // Toggle Dropdown Menu on Mobile
+      const hamburgerMenu = document.getElementById("hamburger-menu");
+      const dropdownMenu = document.getElementById("dropdown-menu");
+
+      hamburgerMenu.addEventListener("click", () => {
+        dropdownMenu.classList.toggle("active");
+      });
+
+      // Close Dropdown Menu When Clicking Outside
+      document.addEventListener("click", (event) => {
+        if (!hamburgerMenu.contains(event.target) && !dropdownMenu.contains(event.target)) {
+          dropdownMenu.classList.remove("active");
+        }
+      });
+
+      // Popup Functions
       function showPopup(popupId) {
         const popup = document.getElementById(`${popupId}-popup`);
         popup.classList.remove("hidden");
@@ -203,7 +443,7 @@
         });
       };
 
-      // WebSocket and chat functionality
+      // WebSocket and Chat Functionality
       const roomName = JSON.parse(document.getElementById("room-name").textContent);
       const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + roomName + "/");
 
@@ -252,6 +492,7 @@
 
       chatSocket.onclose = function (e) {
         console.error("Chat Socket Closed unexpectedly");
+        alert("Connection lost. Please refresh the page.");
       };
 
       document.querySelector("#chat-message-input").focus();
@@ -264,6 +505,11 @@
       document.querySelector("#chat-message-submit").onclick = function (e) {
         let messageInputDom = document.querySelector("#chat-message-input");
         let msg = messageInputDom.value;
+
+        const fileInput = document.querySelector("#file-input");
+        const files = fileInput.files;
+        const username = "{{username}}";
+
         if (msg.trim() != "") {
           chatSocket.send(
             JSON.stringify({
@@ -272,7 +518,52 @@
           );
           messageInputDom.value = "";
         }
+
+        if(files.length>0){
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            (function (currentFile) {
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+                    const base64File = event.target.result;
+
+                    chatSocket.send(
+                        JSON.stringify({
+                            command: 'new_file',
+                            file: base64File,
+                            filename: currentFile.name,
+                            filetype: currentFile.type,
+                            from: username,
+                        })
+                    );
+                };
+
+                reader.readAsDataURL(currentFile);
+            })(file);
+        }
+        fileInput.value = '';
+        }
       };
+
+      // Room Search Functionality
+      const roomSearch = document.getElementById("room-search");
+      const roomList = document.getElementById("room-list");
+
+      if (roomSearch && roomList) {
+        roomSearch.addEventListener("input", (e) => {
+          const searchTerm = e.target.value.toLowerCase();
+          Array.from(roomList.children).forEach((room) => {
+            const roomName = room.textContent.toLowerCase();
+            if (roomName.includes(searchTerm)) {
+              room.style.display = "block";
+            } else {
+              room.style.display = "none";
+            }
+          });
+        });
+      }
     </script>
   </body>
 </html>

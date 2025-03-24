@@ -7,7 +7,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		{% tailwind_css %}
-		<style>{% block style %}{% endblock %}
+		<style>{% block style %} 
+			
+			.neon-text {
+			animation: neonGlow 1.5s infinite alternate;
+		  }
+		  {% endblock %}
 		</style>
 	</head>
 
@@ -34,7 +39,11 @@
 		{% endblock  %}
 		
 		<footer class="bg-gray-950 text-white py-8 text-center">
-			<p>&copy; 2025 ChatApp. All rights reserved.</p>
+			<p>&copy; 2025 ChatSphere. All rights reserved.</p>
+			<div class="mt-4 space-x-4">
+				<a href="{% url "policies" %}" class="text-cyan-400 hover:text-cyan-300">Privacy Policy</a>
+				<a href="{% url "terms" %}" class="text-cyan-400 hover:text-cyan-300">Terms of Service</a>
+			</div>
 		</footer>
 		
 	</body>
