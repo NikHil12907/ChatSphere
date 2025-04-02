@@ -3,7 +3,7 @@
 <head>
   {% tailwind_css %}
 </head>
-<h2 class="text-3xl font-bold neon-text mb-6">Chat with {{ other_user.username }}</h2>
+{% comment %} <h2 class="text-3xl font-bold neon-text mb-6">Chat with {{ other_user.username }}</h2>
 
 <div id="chat-messages" class="h-[400px] overflow-y-auto bg-gray-800 rounded-lg p-4 mb-4 shadow-lg"></div>
 
@@ -20,6 +20,18 @@
   >
     Send
   </button>
+</div> {% endcomment %}
+
+<div class="flex items-center justify-center bg-gray-900 text-white p-4 shadow-md">
+  <h2 class="text-xl font-semibold">{{other_user.username}}</h2>
+  <button class="p-2 rounded-full bg-gray-700 hover:bg-gray-600"></button>
+</div>
+
+<div id="chat-messages" class="h-[calc(100vh-120px)] overflow-y-auto bg-gray-800 px-4 py-2 flex flex-col space-y-3"></div>
+
+<div class="fixed bottom-0 left-0 w-full bg-gray-900 p-4 flex items-center gap-2">
+  <input type="text" id="chat-message-input" placeholder="Type a message..." class="flex-1 p-3 bg-gray-700 text-white rounded-full border border-gray-600 focus:outline-none  focus:ring-2 focus:ring-cyan-400" />
+  <button id="chat-message-submit" class="bg-gray-900 p-4 flex items-center gap-2 text-white">➤</button>
 </div>
 
 
@@ -31,18 +43,38 @@
 
 chatSocket.onmessage = function(e){
     const data = JSON.parse(e.data);
+    const chatMessages = document.getElementById('chat-messages');
     const messageElement = document.createElement('div');
     
-    if(data.username && data.message){
-      messageElement.textContent = data.username + ':' + data.message + data.timestamp;
-    }
-    else{
-      messageElement.textContent = '';
-    }
-    document.getElementById('chat-messages').appendChild(messageElement);
-    document.getElementById("chat-messages").scrollTop = document.getElementById("chat-messages").scrollHeight;
+    const currentUser = "{{ request.user.username }}";
 
-};
+    if(data.username && data.message){
+      messageElement.classList.add(
+        "flex",
+        "items-end",
+        "space-x-2",
+        "p-2",
+        "rounded-lg",
+        "max-w-xs",
+        "break-words",
+        "shadow-lg",
+        "transition-all",
+        "duration-300"
+      );
+
+      if(data.username === currentUser){
+        messageElement.classList.add("bg-cyan-400", "text-white", "ml-auto", "rounded-br-none");
+      }
+      else{
+        messageElement.classList.add("bg-gray-700", "text-white", "mr-auto", "rounded-bl-none");
+      }
+
+      messageElement.innerHTML = `<strong>${data.username}</strong>: ${data.message}`;
+    }
+
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  };
 
 chatSocket.onclose = function(e){
     console.error('Chat Socket Close Unexpectedly');

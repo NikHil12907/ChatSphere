@@ -5,8 +5,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.conf import settings
-from django.urls import reverse
 from .forms import RoomForm, UserUpdateForm, ProfileUpdateForm
 from .models import Room, Notification, Profile
 from django.contrib import messages
@@ -78,7 +76,7 @@ def room_list(request):
     users = User.objects.all()
     current_user = request.user
     recommended_users = users.exclude(id=current_user.id)
-    rooms = Room.objects.annotate(
+    rooms = Room.objects.exclude(name__startswith="private_").annotate(
         unread_count=Count(
             'messages',
             filter=Q(messages__is_read=False, messages__user=request.user )
